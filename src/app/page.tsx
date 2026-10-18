@@ -1,4 +1,6 @@
 import { getTranslations } from "@/i18n/server";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default async function HomePage() {
   const t = await getTranslations();
@@ -17,6 +19,9 @@ export default async function HomePage() {
       <p className="mt-10 border-t border-stone-800 pt-5 text-sm text-stone-400">
         {t("home.disclaimer")}
       </p>
+      <Button asChild className="mt-6 w-fit">
+        <Link href="/play">{t("home.openWorkspace")}</Link>
+      </Button>
     </main>
   );
 }
