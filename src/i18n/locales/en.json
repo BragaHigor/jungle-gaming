@@ -7,13 +7,36 @@
     "eyebrow": "Higor Braga · Interactive portfolio",
     "title": "Lucky Canopy",
     "description": "A personal introduction and a small playable experience. In development.",
-    "disclaimer": "Independent project. Virtual credits with no monetary value."
+    "disclaimer": "Independent project. Virtual credits with no monetary value.",
+    "openWorkspace": "Open demo"
   },
   "language": {
     "label": "Language",
     "options": {
       "pt-BR": "Português (Brasil)",
       "en": "English"
+    }
+  },
+  "workspace": {
+    "title": "Lucky Canopy",
+    "description": "The experience is taking shape. For now, explore the panels and check the application connection.",
+    "navigation": "Demo panels",
+    "loading": "Loading experience…",
+    "backHome": "Back to introduction",
+    "machine": {
+      "title": "Machine",
+      "description": "The game will arrive in the next steps. Bets and rounds are not available yet."
+    },
+    "rules": {
+      "title": "Rules",
+      "description": "The demo will use virtual credits. The rules and paytable will be introduced with the game."
+    },
+    "api": {
+      "loading": "Checking connection…",
+      "success": "The application responded successfully.",
+      "error": "The application could not be reached. Try checking again.",
+      "check": "Check again",
+      "checking": "Checking…"
     }
   },
   "notFound": {

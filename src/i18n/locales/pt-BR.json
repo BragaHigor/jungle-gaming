@@ -7,13 +7,36 @@
     "eyebrow": "Higor Braga · Portfólio interativo",
     "title": "Lucky Canopy",
     "description": "Uma apresentação pessoal e uma pequena experiência jogável. Em desenvolvimento.",
-    "disclaimer": "Projeto independente. Créditos fictícios, sem valor monetário."
+    "disclaimer": "Projeto independente. Créditos fictícios, sem valor monetário.",
+    "openWorkspace": "Abrir demonstração"
   },
   "language": {
     "label": "Idioma",
     "options": {
       "pt-BR": "Português (Brasil)",
       "en": "English"
+    }
+  },
+  "workspace": {
+    "title": "Lucky Canopy",
+    "description": "A base da experiência está em construção. Por enquanto, explore os painéis e confira a conexão com a aplicação.",
+    "navigation": "Painéis da demonstração",
+    "loading": "Carregando experiência…",
+    "backHome": "Voltar à apresentação",
+    "machine": {
+      "title": "Máquina",
+      "description": "O jogo chegará nas próximas etapas. Ainda não há apostas ou rodadas disponíveis."
+    },
+    "rules": {
+      "title": "Regras",
+      "description": "A demonstração usará créditos fictícios. As regras e a tabela de combinações serão apresentadas junto com o jogo."
+    },
+    "api": {
+      "loading": "Verificando conexão…",
+      "success": "A aplicação respondeu corretamente.",
+      "error": "Não foi possível consultar a aplicação. Tente verificar novamente.",
+      "check": "Verificar novamente",
+      "checking": "Verificando…"
     }
   },
   "notFound": {
