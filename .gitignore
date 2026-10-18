@@ -1,0 +1,29 @@
+# Dependências
+node_modules/
+
+# Builds e caches
+.next/
+out/
+dist/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+
+# Testes e relatórios gerados
+coverage/
+playwright-report/
+test-results/
+
+# Configuração local e credenciais
+.env
+.env.*
+!.env.example
+!.env.*.example
+.vercel/
+
+# Logs locais
+*.log
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db

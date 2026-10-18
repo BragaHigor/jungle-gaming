@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "title": "Higor Braga | Lucky Canopy",
+    "description": "Portfólio interativo de Higor Braga e demonstração do jogo Lucky Canopy."
+  },
+  "home": {
+    "eyebrow": "Higor Braga · Portfólio interativo",
+    "title": "Lucky Canopy",
+    "description": "Uma apresentação pessoal e uma pequena experiência jogável. Em desenvolvimento.",
+    "disclaimer": "Projeto independente. Créditos fictícios, sem valor monetário."
+  },
+  "language": {
+    "label": "Idioma",
+    "options": {
+      "pt-BR": "Português (Brasil)",
+      "en": "English"
+    }
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "description": "O endereço que você acessou não está disponível.",
+    "backHome": "Voltar ao início"
+  }
+}
