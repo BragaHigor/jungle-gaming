@@ -10,6 +10,34 @@
     "disclaimer": "Independent project. Virtual credits with no monetary value.",
     "openWorkspace": "Open demo"
   },
+  "navigation": {
+    "label": "Main navigation",
+    "about": "About",
+    "play": "Play",
+    "project": "The project",
+    "home": "{{name}} — home",
+    "github": "Higor Braga’s GitHub profile",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "skip": "Skip to content"
+  },
+  "social": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
+  },
+  "theme": {
+    "light": "Switch to light mode",
+    "dark": "Switch to dark mode"
+  },
+  "footer": {
+    "independent": "Independent portfolio project.",
+    "affiliation": "Not officially affiliated with Jungle Gaming.",
+    "credits": "Virtual credits with no monetary value."
+  },
+  "project": {
+    "title": "The project",
+    "pending": "This page is under construction. It will explain the decisions and architecture behind Lucky Canopy as the implementation progresses."
+  },
   "language": {
     "label": "Language",
     "options": {

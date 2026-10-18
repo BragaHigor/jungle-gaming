@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "button-primary text-primary-foreground",
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -17,6 +17,7 @@ const buttonVariants = cva(
       size: {
         default: "min-h-11 px-4 py-2",
         sm: "min-h-11 px-3 py-2",
+        icon: "size-11 p-0",
       },
     },
     defaultVariants: { variant: "default", size: "default" },

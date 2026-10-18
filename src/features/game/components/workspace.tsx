@@ -53,7 +53,7 @@ function MachinePanel() {
   return (
     <section className="space-y-3">
       <h2 className="text-2xl font-semibold">{t("workspace.machine.title")}</h2>
-      <p className="leading-relaxed text-stone-300">
+      <p className="leading-relaxed text-muted-foreground">
         {t("workspace.machine.description")}
       </p>
     </section>
@@ -65,7 +65,7 @@ function RulesPanel() {
   return (
     <section className="space-y-3">
       <h2 className="text-2xl font-semibold">{t("workspace.rules.title")}</h2>
-      <p className="leading-relaxed text-stone-300">
+      <p className="leading-relaxed text-muted-foreground">
         {t("workspace.rules.description")}
       </p>
     </section>

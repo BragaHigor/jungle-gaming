@@ -8,10 +8,14 @@ export default async function PlayPage() {
   const t = await getTranslations();
 
   return (
-    <main className="mx-auto flex min-h-[calc(100svh-5rem)] max-w-3xl flex-col gap-8 px-6 py-12 sm:px-10">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-12 sm:px-10"
+    >
       <div className="space-y-3">
         <h1 className="text-4xl font-semibold">{t("workspace.title")}</h1>
-        <p className="leading-relaxed text-stone-300">
+        <p className="leading-relaxed text-muted-foreground">
           {t("workspace.description")}
         </p>
       </div>
