@@ -3,13 +3,6 @@
     "title": "Higor Braga | Lucky Canopy",
     "description": "Higor Braga’s interactive portfolio and Lucky Canopy game demo."
   },
-  "home": {
-    "eyebrow": "Higor Braga · Interactive portfolio",
-    "title": "Lucky Canopy",
-    "description": "A personal introduction and a small playable experience. In development.",
-    "disclaimer": "Independent project. Virtual credits with no monetary value.",
-    "openWorkspace": "Open demo"
-  },
   "navigation": {
     "label": "Main navigation",
     "about": "About",
@@ -71,5 +64,107 @@
     "title": "Page not found",
     "description": "The address you requested is not available.",
     "backHome": "Back to home"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "Interactive portfolio · Front-End",
+      "titleStart": "Interfaces with intention.",
+      "titleAccent": "Interactions",
+      "titleEnd": "with personality.",
+      "description": "I'm a full stack developer focused on front-end. I work with React, Next.js and TypeScript to turn ideas into interfaces and digital experiences.",
+      "location": "{{city}} / {{region}} · Brazil",
+      "demo": "Explore the demo",
+      "project": "About the project"
+    },
+    "about": {
+      "eyebrow": "About",
+      "title": "The person behind the interface",
+      "description": "I like to understand an application beyond the screen: how data arrives, how states connect and how the interface responds to each interaction. My work brings together interface development, API integration, testing and technical documentation.",
+      "facts": {
+        "work": {
+          "title": "Development day to day",
+          "description": "I work at {{company}}, on digital products for {{team}}. Previously, I worked at {{previousCompany}} on B2C E-care applications for {{previousProduct}}."
+        },
+        "education": {
+          "title": "An education in software",
+          "description": "I hold a technology degree in Multiplatform Software Development from {{school}} and a postgraduate qualification in Full Stack Development and Cloud Computing from {{postgraduateSchool}}."
+        },
+        "learning": {
+          "title": "Continuous learning",
+          "description": "I am deepening my studies in systems architecture and development with an emphasis on design patterns, alongside automated testing and delivery processes."
+        }
+      },
+      "skills": "Skills",
+      "projects": "Selected projects",
+      "projectDescriptions": {
+        "border": "A responsive puppy catalogue with filters, detail pages and an image gallery.",
+        "threadflow": "A product landing page with interactive sections and structured content for navigation and SEO.",
+        "maestri": "An institutional website with consumer law content, an informational deadline calculator and contact via WhatsApp or email."
+      },
+      "sourceCode": "Source",
+      "visitProject": " — visit website"
+    },
+    "game": {
+      "eyebrow": "The minigame",
+      "name": "Lucky Canopy",
+      "description": "A three-reel experience designed to explore interfaces and interactions. A small project to follow from the first click to the result.",
+      "features": {
+        "credits": {
+          "title": "Virtual credits",
+          "description": "The concept starts with 1,000 virtual credits, with no payments or monetary value."
+        },
+        "responsive": {
+          "title": "Responsive interface",
+          "description": "A composition that adapts from mobile to desktop while keeping the machine in focus."
+        },
+        "history": {
+          "title": "Round history",
+          "description": "The game will include a summary of the last five rounds, with bets and results."
+        }
+      },
+      "disclaimer": "A demo with no real money.",
+      "progress": "In development. The machines on this page are visual previews; the demo does not run rounds yet."
+    },
+    "preview": {
+      "edition": "No. 01 · 3 reels",
+      "balance": "Balance",
+      "credits": "credits",
+      "combination": "Combination · +{{credits}}",
+      "badge": "Visual preview",
+      "spin": "Spin",
+      "result": "Match! +{{credits}} credits",
+      "heroCaption": "Fig. 1 — Illustrative preview: three reels, one line. Sample values.",
+      "detailCaption": "Fig. 2 — A visual study of a match. Controls and values are illustrative.",
+      "symbols": {
+        "leaf": "Leaf",
+        "flower": "Flower",
+        "cherry": "Fruit",
+        "gem": "Gem"
+      }
+    },
+    "decisions": {
+      "eyebrow": "Project decisions",
+      "title": "Three areas of work",
+      "link": "Explore the decisions",
+      "interface": {
+        "title": "Interface and responsiveness",
+        "description": "One column on mobile and more room for the composition on desktop. Theme, navigation and visible focus share the same components throughout the application."
+      },
+      "data": {
+        "title": "Application data and states",
+        "description": "The foundation already includes an HTTP query with loading and error states. Server-confirmed game results will be the next step in separating data from presentation."
+      },
+      "motion": {
+        "title": "Interactions and animation",
+        "description": "The game is designed to stop the reels in sequence, 260 ms apart. Results will also be communicated through text, respecting reduced motion preferences."
+      },
+      "states": {
+        "ready": "Ready",
+        "checking": "Checking",
+        "result": "Result"
+      },
+      "reel": "Reel {{number}}",
+      "delay": "+{{delay}} ms"
+    }
   }
 }

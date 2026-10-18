@@ -42,6 +42,10 @@
   --sunset: linear-gradient(90deg, #e64bd1, #ff6f91 55%, #f5a04a);
   --sunset-text: var(--sunset);
   --shadow-panel: 0 18px 48px rgb(0 0 0 / 50%);
+  --symbol-leaf: #3fe0b0;
+  --symbol-flower: #f05bdc;
+  --symbol-cherry: #ff8a3d;
+  --symbol-gem: #7d8bff;
 }
 
 :root[data-theme="light"] {
@@ -62,6 +66,10 @@
   --backdrop: rgb(26 16 32 / 55%);
   --sunset-text: linear-gradient(90deg, #a3127f, #c2187a 50%, #a8430f);
   --shadow-panel: 0 18px 44px rgb(26 16 32 / 18%);
+  --symbol-leaf: #0d8c69;
+  --symbol-flower: #b0149c;
+  --symbol-cherry: #c2541a;
+  --symbol-gem: #3c43cf;
 }
 
 @layer base {
@@ -216,14 +224,6 @@
   background: var(--sunset-text);
   background-clip: text;
   color: transparent;
-}
-
-.hero-title {
-  width: fit-content;
-  max-width: 100%;
-  padding: 0.15em 0.2em 0.25em;
-  margin-left: -0.12em;
-  line-height: 1.2;
 }
 
 .language-switcher {

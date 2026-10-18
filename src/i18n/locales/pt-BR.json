@@ -3,13 +3,6 @@
     "title": "Higor Braga | Lucky Canopy",
     "description": "Portfólio interativo de Higor Braga e demonstração do jogo Lucky Canopy."
   },
-  "home": {
-    "eyebrow": "Higor Braga · Portfólio interativo",
-    "title": "Lucky Canopy",
-    "description": "Uma apresentação pessoal e uma pequena experiência jogável. Em desenvolvimento.",
-    "disclaimer": "Projeto independente. Créditos fictícios, sem valor monetário.",
-    "openWorkspace": "Abrir demonstração"
-  },
   "navigation": {
     "label": "Navegação principal",
     "about": "Sobre",
@@ -71,5 +64,107 @@
     "title": "Página não encontrada",
     "description": "O endereço que você acessou não está disponível.",
     "backHome": "Voltar ao início"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "Portfólio interativo · Front-End",
+      "titleStart": "Interfaces com intenção.",
+      "titleAccent": "Interações",
+      "titleEnd": "com personalidade.",
+      "description": "Sou desenvolvedor full stack com foco em front-end. Trabalho com React, Next.js e TypeScript para transformar ideias em interfaces e experiências digitais.",
+      "location": "{{city}} / {{region}} · Brasil",
+      "demo": "Explorar demonstração",
+      "project": "Conhecer o projeto"
+    },
+    "about": {
+      "eyebrow": "Sobre",
+      "title": "Quem está por trás da interface",
+      "description": "Gosto de entender a aplicação além da tela: como os dados chegam, como os estados se conectam e como a interface responde a cada interação. Meu trabalho reúne desenvolvimento de interfaces, integração com APIs, testes e documentação técnica.",
+      "facts": {
+        "work": {
+          "title": "Desenvolvimento no dia a dia",
+          "description": "Atuo no {{company}}, no time dos produtos digitais do {{team}}. Antes, trabalhei na {{previousCompany}} em aplicações B2C E-care da {{previousProduct}}."
+        },
+        "education": {
+          "title": "Formação em software",
+          "description": "Sou tecnólogo em Desenvolvimento de Software Multiplataforma pela {{school}} e pós-graduado em Desenvolvimento Full Stack e Cloud Computing pela {{postgraduateSchool}}."
+        },
+        "learning": {
+          "title": "Aprendizado contínuo",
+          "description": "Aprofundo meus estudos em arquitetura e desenvolvimento de sistemas com ênfase em padrões de projeto, além de testes automatizados e processos de entrega."
+        }
+      },
+      "skills": "Conhecimentos",
+      "projects": "Projetos selecionados",
+      "projectDescriptions": {
+        "border": "Catálogo responsivo de filhotes com filtros, páginas de detalhes e galeria de imagens.",
+        "threadflow": "Landing page institucional com apresentação do produto, seções interativas e conteúdo organizado para navegação e SEO.",
+        "maestri": "Site institucional com conteúdo sobre Direito do Consumidor, calculadora informativa de prazos e contato por WhatsApp ou e-mail."
+      },
+      "sourceCode": "Código",
+      "visitProject": " — visitar site"
+    },
+    "game": {
+      "eyebrow": "O minigame",
+      "name": "Lucky Canopy",
+      "description": "Uma experiência de três rolos, pensada para explorar interfaces e interações. Um pequeno projeto para acompanhar do primeiro clique ao resultado.",
+      "features": {
+        "credits": {
+          "title": "Créditos fictícios",
+          "description": "A proposta parte de 1.000 créditos virtuais, sem pagamentos ou valor monetário."
+        },
+        "responsive": {
+          "title": "Interface responsiva",
+          "description": "Uma composição que se adapta do celular ao desktop, mantendo a máquina em foco."
+        },
+        "history": {
+          "title": "Histórico de rodadas",
+          "description": "O jogo terá um resumo das últimas cinco jogadas, com aposta e resultado."
+        }
+      },
+      "disclaimer": "Demonstração sem dinheiro real.",
+      "progress": "Em desenvolvimento. As máquinas desta página são prévias visuais; a demonstração ainda não realiza rodadas."
+    },
+    "preview": {
+      "edition": "Nº 01 · 3 rolos",
+      "balance": "Saldo",
+      "credits": "créditos",
+      "combination": "Combinação · +{{credits}}",
+      "badge": "Prévia visual",
+      "spin": "Girar",
+      "result": "Combinação! +{{credits}} créditos",
+      "heroCaption": "Fig. 1 — Prévia ilustrativa: três rolos, uma linha. Valores de exemplo.",
+      "detailCaption": "Fig. 2 — Estudo visual de uma combinação. Os controles e valores são ilustrativos.",
+      "symbols": {
+        "leaf": "Folha",
+        "flower": "Flor",
+        "cherry": "Fruto",
+        "gem": "Gema"
+      }
+    },
+    "decisions": {
+      "eyebrow": "Decisões de projeto",
+      "title": "Três frentes de trabalho",
+      "link": "Conhecer as decisões",
+      "interface": {
+        "title": "Interface e responsividade",
+        "description": "Uma coluna no celular e mais espaço para a composição no desktop. Tema, navegação e foco visível compartilham os mesmos componentes em toda a aplicação."
+      },
+      "data": {
+        "title": "Dados e estados da aplicação",
+        "description": "A base já integra uma consulta HTTP com estados de carregamento e falha. No jogo, a confirmação do resultado pelo servidor será o próximo passo dessa separação entre dados e apresentação."
+      },
+      "motion": {
+        "title": "Interações e animações",
+        "description": "A direção para o jogo é parar os rolos em sequência, com 260 ms entre eles. O resultado também será comunicado por texto, respeitando a preferência por movimento reduzido."
+      },
+      "states": {
+        "ready": "Pronto",
+        "checking": "Verificando",
+        "result": "Resultado"
+      },
+      "reel": "Rolo {{number}}",
+      "delay": "+{{delay}} ms"
+    }
   }
 }

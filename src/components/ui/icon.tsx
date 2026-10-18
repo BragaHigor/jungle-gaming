@@ -12,6 +12,62 @@ const paths = {
   close: <path d="m6 6 12 12M6 18 18 6" />,
   arrow: <path d="M4 12h16m-6-6 6 6-6 6" />,
   chevronDown: <path d="m6 9 6 6 6-6" />,
+  mapPin: (
+    <>
+      <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </>
+  ),
+  play: <path d="m8 4 12 8-12 8Z" />,
+  leaf: (
+    <>
+      <path d="M20 3C9 1 2 7 4 14s15 9 16-11Z" />
+      <path d="M3 21 15 9" />
+    </>
+  ),
+  flower: (
+    <>
+      <path d="M12 7C6-2 0 9 7 12c-9 6 2 12 5 5 6 9 12-2 5-5 9-6-2-12-5-5Z" />
+      <circle cx="12" cy="12" r="2" />
+    </>
+  ),
+  cherry: (
+    <>
+      <circle cx="6" cy="17" r="4" />
+      <circle cx="18" cy="17" r="4" />
+      <path d="M6 13C6 6 11 8 13 2c0 6 5 6 5 11M13 2c5-1 7 1 8 4-4 0-6-1-8-4Z" />
+    </>
+  ),
+  gem: (
+    <>
+      <path d="m3 8 4-5h10l4 5-9 13Z" />
+      <path d="M3 8h18M8 8l4 13 4-13M7 3l1 5m9-5-1 5" />
+    </>
+  ),
+  coins: (
+    <>
+      <ellipse cx="9" cy="6" rx="7" ry="3" />
+      <path d="M2 6v5c0 4 14 4 14 0V6M2 11v5c0 2 4 3 7 3m9-10c6 1 6 5 0 6m-6 2c0 4 10 4 10 0v-5m-10 5v4c0 4 10 4 10 0v-4" />
+    </>
+  ),
+  devices: (
+    <>
+      <rect x="2" y="3" width="15" height="12" rx="2" />
+      <path d="M6 20h7M9 15v5" />
+      <rect x="16" y="9" width="6" height="12" rx="1" />
+    </>
+  ),
+  history: (
+    <>
+      <path d="M3 10a9 9 0 1 1 0 5M3 4v6h6M12 7v5l3 2" />
+    </>
+  ),
+  shield: (
+    <>
+      <path d="m12 2 8 4v6c0 5-8 10-8 10S4 17 4 12V6Z" />
+      <path d="m8 12 3 3 5-6" />
+    </>
+  ),
   github: (
     <>
       <path
