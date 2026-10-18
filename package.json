@@ -16,7 +16,11 @@
     "typecheck": "next typegen && tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "format": "prettier . --write",
-    "format:check": "prettier . --check"
+    "format:check": "prettier . --check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run lint && npm run format:check && npm run typecheck && npm test && npm run build",
+    "prepare": "node .husky/install.mjs"
   },
   "dependencies": {
     "@tanstack/react-query": "5.104.4",
@@ -42,10 +46,13 @@
     "eslint": "10.13.0",
     "eslint-config-next": "16.4.2",
     "eslint-config-prettier": "10.1.8",
+    "husky": "9.1.7",
     "postcss": "8.5.30",
     "prettier": "3.9.10",
     "tailwindcss": "4.3.3",
     "tsx": "4.23.15",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vite": "7.3.7",
+    "vitest": "4.1.12"
   }
 }
