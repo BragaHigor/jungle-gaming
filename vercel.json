@@ -24,7 +24,11 @@
       "destination": { "service": "realtime" }
     },
     {
-      "source": "/:path*",
+      "source": "/",
+      "destination": { "service": "web", "path": "/" }
+    },
+    {
+      "source": "/(.*)",
       "destination": { "service": "web" }
     }
   ]
