@@ -29,6 +29,8 @@ describe("catálogo isolado da sessão real", () => {
       expect(html).toContain("<select");
       expect(html).not.toContain("<button");
       expect(html).not.toContain('class="game-reel-strip"');
+      expect(html).toContain("<h2>");
+      expect(html).not.toContain("<h3>");
     },
   );
 
@@ -74,4 +76,29 @@ describe("catálogo isolado da sessão real", () => {
     expect(names).toHaveLength(6);
     expect(new Set(names)).toHaveLength(2);
   });
+
+  it.each(["pt-BR", "en"] as const)(
+    "mantém títulos e referências únicos ao compor duas prévias em %s",
+    (locale) => {
+      const html = render(
+        createElement(
+          Fragment,
+          null,
+          createElement(ReadOnlyGame, { view: createCatalogView("win") }),
+          createElement(ReadOnlyGame, { view: createCatalogView("loss") }),
+        ),
+        locale,
+      );
+      const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(
+        (match) => match[1],
+      );
+      const references = [...html.matchAll(/aria-labelledby="([^"]+)"/g)].map(
+        (match) => match[1],
+      );
+      expect(new Set(ids).size).toBe(ids.length);
+      expect(references).toHaveLength(2);
+      expect(new Set(references).size).toBe(2);
+      for (const id of references) expect(html).toContain(`<h2 id="${id}">`);
+    },
+  );
 });

@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
@@ -25,6 +26,8 @@ export function GameBoard({
 }) {
   const { t, i18n } = useTranslation();
   const controller = useInterface();
+  const messageId = useId();
+  const combinationsId = useId();
   const fmt = new Intl.NumberFormat(i18n.language);
   const connectionStatus = !example
     ? controller.remote.pending
@@ -91,7 +94,7 @@ export function GameBoard({
               className="game-spin"
               disabled={example ? !canAnimate : !controller.remote.canPlay}
               aria-busy={busy}
-              aria-describedby="game-message"
+              aria-describedby={messageId}
               onClick={() =>
                 example
                   ? controller.dispatch({ type: "animate" })
@@ -114,6 +117,7 @@ export function GameBoard({
             </Button>
           </div>
           <GameMessage
+            id={messageId}
             view={view}
             example={example}
             onRecover={
@@ -150,9 +154,9 @@ export function GameBoard({
         <GameHistory history={view.history} />
         <section
           className="game-panel game-desktop-rules"
-          aria-labelledby="game-combinations-title"
+          aria-labelledby={combinationsId}
         >
-          <h2 id="game-combinations-title">{t("game.rules.title")}</h2>
+          <h2 id={combinationsId}>{t("game.rules.title")}</h2>
           <Paytable bet={view.bet} />
         </section>
       </aside>

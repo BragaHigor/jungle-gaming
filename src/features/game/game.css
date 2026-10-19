@@ -297,7 +297,7 @@
 .game-message > div {
   min-width: 0;
 }
-.game-message h3 {
+.game-message h2 {
   font-size: 23px;
   font-weight: 600;
   line-height: 1.2;
@@ -311,7 +311,7 @@
 .game-message[data-phase="win"] {
   background: color-mix(in srgb, var(--highlight) 9%, transparent);
 }
-.game-message[data-phase="win"] h3,
+.game-message[data-phase="win"] h2,
 .game-message[data-phase="win"] > svg {
   color: var(--highlight);
 }
