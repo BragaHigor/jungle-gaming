@@ -418,8 +418,8 @@
     },
     "messages": {
       "unavailable": {
-        "title": "As rodadas chegam em breve",
-        "body": "Ainda não há uma sessão de jogo disponível. Escolha a aposta, consulte a tabela e explore os exemplos da interface. Nenhum crédito será movimentado."
+        "title": "Sem sessão neste exemplo",
+        "body": "Este quadro representa a interface antes de existir uma sessão. Os dados permanecem desconhecidos; nenhuma rodada será enviada."
       },
       "loading": {
         "title": "Carregando demonstração…",
@@ -543,6 +543,98 @@
         "title": "Não foi possível confirmar",
         "body": "Confira a mensagem abaixo. Uma falha de conexão não garante que uma rodada tenha sido cancelada."
       }
+    }
+  },
+  "catalog": {
+    "eyebrow": "Lucky Canopy / referências da interface",
+    "links": {
+      "label": "Referências do projeto",
+      "system": "Sistema visual",
+      "showcase": "Galeria de estados",
+      "project": "Conhecer o projeto"
+    },
+    "system": {
+      "resetDescription": "Somente a seleção e a tabela deste exemplo voltarão para 10 créditos. O quadro fixo e qualquer sessão do jogo permanecem inalterados.",
+      "title": "Uma linguagem visual compartilhada.",
+      "metadataTitle": "Sistema visual | Lucky Canopy",
+      "intro": "Cores, tipografia e componentes usados no projeto. Uma referência pequena para conferir a interface e experimentar controles sem iniciar uma sessão de jogo.",
+      "palette": "Cores e significado",
+      "paletteNote": "As amostras usam os mesmos tokens da aplicação e acompanham o tema escolhido no cabeçalho. Cor e texto trabalham juntos para identificar cada estado.",
+      "tokens": {
+        "background": "Fundo",
+        "surface": "Superfície",
+        "text": "Texto principal",
+        "accent": "Destaque",
+        "success": "Sucesso",
+        "error": "Erro"
+      },
+      "gradient": "O gradiente de pôr do sol destaca ações principais e a assinatura visual do jogo.",
+      "typography": "Três fontes, papéis definidos.",
+      "samples": {
+        "body": "Interfaces com intenção.",
+        "display": "Explorar",
+        "script": "Lucky Canopy"
+      },
+      "fontRoles": {
+        "body": "Títulos, parágrafos e controles.",
+        "display": "Ações de destaque e títulos do jogo.",
+        "script": "Assinatura e nome do minigame."
+      },
+      "controls": "Controles em uso",
+      "controlsNote": "Estes controles alteram apenas os exemplos abaixo. Nenhuma escolha envia aposta, consulta saldo ou se conecta ao jogo.",
+      "buttons": {
+        "default": "Principal",
+        "outline": "Contorno",
+        "ghost": "Discreto",
+        "disabled": "Desabilitado",
+        "loading": "Carregando…"
+      },
+      "feedback": {
+        "initial": "Experimente os botões ou navegue com Tab.",
+        "default": "Botão principal acionado neste exemplo.",
+        "outline": "Botão de contorno acionado neste exemplo.",
+        "ghost": "Botão discreto acionado neste exemplo.",
+        "reset": "Exemplo restaurado para a seleção inicial."
+      },
+      "betNote": "A seleção atualiza somente esta tabela ilustrativa. Reiniciar restaura a seleção de 10 créditos.",
+      "symbols": "Símbolos com nomes",
+      "composition": "Componentes juntos",
+      "compositionNote": "Um quadro fixo de combinação reúne rolos, saldo, mensagem e histórico. Os valores são exemplos independentes da sua sessão; as animações estão desativadas."
+    },
+    "showcase": {
+      "title": "Cada estado, sem depender da conexão.",
+      "metadataTitle": "Galeria de estados | Lucky Canopy",
+      "intro": "Explore quadros determinísticos de carregamento, resultado e falha. Todos usam dados locais de exemplo e os componentes visuais do jogo, sem acessar ou modificar uma sessão real."
+    },
+    "gallery": {
+      "scenario": "Estado do exemplo",
+      "width": "Largura da prévia",
+      "animate": "Ativar animações nesta prévia",
+      "sizes": {
+        "compact": "Até 320 px",
+        "medium": "Até 768 px",
+        "fluid": "Área disponível"
+      },
+      "widthNote": "A largura é limitada ao espaço disponível nesta página; não representa uma emulação de dispositivo. As animações começam desligadas e respeitam a preferência de movimento reduzido do sistema.",
+      "caption": "Quadro de referência: {{scenario}}"
+    },
+    "preview": {
+      "machine": "Máquina ilustrativa, somente leitura",
+      "fixed": "Dados de exemplo",
+      "readonly": "Prévia somente leitura. Não envia rodadas, não consulta saldo e não altera sua sessão."
+    },
+    "scenarios": {
+      "unavailable": "Sem sessão",
+      "ready": "Pronto / histórico vazio",
+      "loading": "Carregamento",
+      "spinning": "Rolos girando",
+      "stopping": "Parada em sequência",
+      "win": "Combinação / histórico preenchido",
+      "loss": "Sem combinação",
+      "insufficient": "Saldo insuficiente",
+      "offline": "Sem conexão",
+      "verifying": "Verificando resultado",
+      "failed": "Falha na confirmação"
     }
   }
 }

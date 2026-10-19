@@ -1,6 +1,7 @@
 import type { ComponentProps } from "react";
 
 const paths = {
+  question: <path d="M9 8a3 3 0 1 1 5.2 2c-1.3.8-2.2 1.4-2.2 3m0 4h.01" />,
   api: <path d="m8 5-6 7 6 7m8-14 6 7-6 7m-3-16-2 18" />,
   sun: (
     <>
