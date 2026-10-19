@@ -226,6 +226,19 @@
   color: transparent;
 }
 
+.symbol-leaf {
+  color: var(--symbol-leaf);
+}
+.symbol-flower {
+  color: var(--symbol-flower);
+}
+.symbol-cherry {
+  color: var(--symbol-cherry);
+}
+.symbol-gem {
+  color: var(--symbol-gem);
+}
+
 .language-switcher {
   display: flex;
   min-width: 0;

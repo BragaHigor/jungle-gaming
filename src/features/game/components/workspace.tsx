@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   createRootRoute,
@@ -11,13 +11,19 @@ import {
 } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import { Button } from "@/components/ui/button";
-import { ApiStatus } from "@/features/game/components/api-status";
+import { GameBoard } from "@/features/game/components/game-board";
+import { BetSelector } from "@/features/game/components/bet-selector";
+import { Paytable } from "@/features/game/components/paytable";
+import { ExamplePanel } from "@/features/game/components/example-panel";
+import {
+  InterfaceProvider,
+  useInterface,
+} from "@/features/game/components/interface-provider";
+import { createUnavailableView } from "@/features/game/presentation";
 
 function WorkspaceLayout() {
   const { t } = useTranslation();
-
   return (
     <div className="space-y-6">
       <nav
@@ -41,33 +47,36 @@ function WorkspaceLayout() {
             {t("workspace.rules.title")}
           </Link>
         </Button>
+        <Button asChild variant="outline">
+          <Link
+            to="/examples"
+            activeProps={{ "aria-current": "page", className: "bg-accent" }}
+          >
+            {t("game.navigation.examples")}
+          </Link>
+        </Button>
       </nav>
-      <ApiStatus />
       <Outlet />
     </div>
   );
 }
 
 function MachinePanel() {
-  const { t } = useTranslation();
-  return (
-    <section className="space-y-3">
-      <h2 className="text-2xl font-semibold">{t("workspace.machine.title")}</h2>
-      <p className="leading-relaxed text-muted-foreground">
-        {t("workspace.machine.description")}
-      </p>
-    </section>
-  );
+  const controller = useInterface();
+  return <GameBoard view={createUnavailableView(controller.bet)} />;
 }
 
 function RulesPanel() {
   const { t } = useTranslation();
+  const controller = useInterface();
   return (
-    <section className="space-y-3">
-      <h2 className="text-2xl font-semibold">{t("workspace.rules.title")}</h2>
+    <section className="game-panel game-full-rules space-y-5">
+      <h2>{t("game.rules.title")}</h2>
       <p className="leading-relaxed text-muted-foreground">
-        {t("workspace.rules.description")}
+        {t("game.rules.intro")}
       </p>
+      <BetSelector bet={controller.bet} onChange={controller.setBet} />
+      <Paytable bet={controller.bet} />
     </section>
   );
 }
@@ -84,9 +93,13 @@ function createGameRouter() {
     path: "/rules",
     component: RulesPanel,
   });
-
+  const examples = createRoute({
+    getParentRoute: () => root,
+    path: "/examples",
+    component: ExamplePanel,
+  });
   return createRouter({
-    routeTree: root.addChildren([machine, rules]),
+    routeTree: root.addChildren([machine, rules, examples]),
     history: createMemoryHistory({ initialEntries: ["/"] }),
   });
 }
@@ -99,5 +112,9 @@ declare module "@tanstack/react-router" {
 
 export function GameWorkspace() {
   const [router] = useState(createGameRouter);
-  return <RouterProvider router={router} />;
+  return (
+    <InterfaceProvider>
+      <RouterProvider router={router} />
+    </InterfaceProvider>
+  );
 }

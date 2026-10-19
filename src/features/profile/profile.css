@@ -130,15 +130,29 @@
   font-weight: 600;
 }
 .profile-skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  gap: 14px 20px;
 }
 .profile-skills li {
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 14px;
+}
+.skill-logo {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 6px;
+  background: #fff;
+}
+.skill-symbol {
+  width: 28px;
+  flex-shrink: 0;
+  color: var(--muted-foreground);
 }
 .profile-projects li {
   border-top: 1px solid var(--border);
@@ -289,18 +303,6 @@
   border-color: var(--highlight);
   background: color-mix(in srgb, var(--highlight) 12%, transparent);
   opacity: 1;
-}
-.symbol-leaf {
-  color: var(--symbol-leaf);
-}
-.symbol-flower {
-  color: var(--symbol-flower);
-}
-.symbol-cherry {
-  color: var(--symbol-cherry);
-}
-.symbol-gem {
-  color: var(--symbol-gem);
 }
 .preview-summary {
   display: flex;

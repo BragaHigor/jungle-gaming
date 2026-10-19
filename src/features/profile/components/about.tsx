@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { Icon } from "@/components/ui/icon";
 import { profile, selectedProjects } from "@/content/profile";
 import { getTranslations } from "@/i18n/server";
@@ -54,7 +55,25 @@ export async function About() {
             </h3>
             <ul className="profile-skills">
               {profile.technologies.map((skill) => (
-                <li key={skill}>{skill}</li>
+                <li key={skill.name}>
+                  {"logo" in skill ? (
+                    <span className="skill-logo" aria-hidden="true">
+                      <Image
+                        src={`/icons/${skill.logo}.svg`}
+                        alt=""
+                        width={20}
+                        height={20}
+                      />
+                    </span>
+                  ) : (
+                    <Icon name={skill.icon} className="skill-symbol" />
+                  )}
+                  <span>
+                    {t(`landing.about.skillLabels.${skill.name}`, {
+                      defaultValue: skill.name,
+                    })}
+                  </span>
+                </li>
               ))}
             </ul>
           </div>

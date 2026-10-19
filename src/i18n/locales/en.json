@@ -71,7 +71,7 @@
       "titleStart": "Interfaces with intention.",
       "titleAccent": "Interactions",
       "titleEnd": "with personality.",
-      "description": "I'm a full stack developer focused on front-end. I work with React, Next.js and TypeScript to turn ideas into interfaces and digital experiences.",
+      "description": "I\u0027m a full stack developer focused on front-end. I work with React, Next.js and TypeScript to turn ideas into interfaces and digital experiences.",
       "location": "{{city}} / {{region}} · Brazil",
       "demo": "Explore the demo",
       "project": "About the project"
@@ -95,6 +95,11 @@
         }
       },
       "skills": "Skills",
+      "skillLabels": {
+        "restApis": "REST APIs",
+        "automatedTesting": "Testing",
+        "frontendArchitecture": "Architecture"
+      },
       "projects": "Selected projects",
       "projectDescriptions": {
         "border": "A responsive puppy catalogue with filters, detail pages and an image gallery.",
@@ -165,6 +170,150 @@
       },
       "reel": "Reel {{number}}",
       "delay": "+{{delay}} ms"
+    }
+  },
+  "game": {
+    "description": "Three reels, four symbols and one winning line. Explore the interface and the demo rules.",
+    "disclaimer": "Virtual credits · no real money",
+    "machine": "Lucky Canopy machine",
+    "navigation": {
+      "examples": "Examples"
+    },
+    "symbols": {
+      "leaf": "Leaf",
+      "flower": "Flower",
+      "cherry": "Fruit",
+      "gem": "Gem"
+    },
+    "balance": {
+      "label": "Balance",
+      "credits": "credits",
+      "unknown": "—"
+    },
+    "bet": {
+      "label": "Bet per round"
+    },
+    "status": {
+      "example": "Local example",
+      "unavailable": "Coming soon",
+      "offline": "Offline",
+      "failed": "No response",
+      "verifying": "Checking…",
+      "loading": "Loading…"
+    },
+    "sound": {
+      "on": "Sound on",
+      "off": "Sound off",
+      "unavailable": "Audio could not be enabled in this browser. The interface remains available without sound."
+    },
+    "reel": {
+      "spinning": "Reel {{number}}: spinning",
+      "value": "Reel {{number}}: {{symbol}}",
+      "unknown": "Reel {{number}}: awaiting confirmation",
+      "placeholder": "?"
+    },
+    "actions": {
+      "spin": "Spin",
+      "spinning": "Spinning…",
+      "animateExample": "Animate example",
+      "recoverExample": "Check example",
+      "resetExample": "Reset example",
+      "confirmReset": "Reset",
+      "cancel": "Cancel",
+      "close": "Close"
+    },
+    "rules": {
+      "title": "Combinations",
+      "table": "Paytable",
+      "line": "On the line",
+      "prize": "Payout",
+      "withBet": "With {{bet}}",
+      "times": "×",
+      "matches": {
+        "gem": "3 gems",
+        "cherry": "3 fruits",
+        "flower": "3 flowers",
+        "leaf": "3 leaves"
+      },
+      "intro": "The game concept uses 1,000 virtual credits and bets of 10, 25 or 50. Three identical symbols on the centre line form a match. There are no payments, withdrawals or monetary value.",
+      "description": "Display values for the selected bet: {{bet}} credits.",
+      "note": "The payout is the total credited for the round; the bet is deducted once. No match means no prize. This is an illustrative table with no claim about probabilities or RTP."
+    },
+    "history": {
+      "title": "Recent rounds",
+      "limit": "up to 5",
+      "empty": "Your rounds will appear here",
+      "number": "#{{number}}",
+      "bet": "Bet {{bet}}",
+      "prize": "+{{prize}}",
+      "noPrize": "No prize"
+    },
+    "reset": {
+      "title": "Reset this example?",
+      "description": "Only the visual example will return to 1,000 credits and an empty history. No server session or round will be changed."
+    },
+    "examples": {
+      "title": "Interface examples",
+      "description": "Local scenarios with fixed values, no bets, random draws or round connection. Animate replays a known preview; it does not calculate a new result. Changing the scenario interrupts the previous animation.",
+      "scenario": "Example state",
+      "reduceMotion": "Reduce motion in the example",
+      "scenarios": {
+        "ready": "Ready / empty history",
+        "loading": "Loading",
+        "spinning": "Spinning reels",
+        "win": "Match / populated history",
+        "loss": "No match",
+        "insufficient": "Insufficient balance",
+        "offline": "Offline",
+        "verifying": "Checking result",
+        "failed": "Confirmation failed"
+      }
+    },
+    "messages": {
+      "unavailable": {
+        "title": "Rounds are coming soon",
+        "body": "There is no game session available yet. Select a bet, check the paytable and explore the interface examples. No credits will be moved."
+      },
+      "loading": {
+        "title": "Loading demo…",
+        "body": "Waiting for the data needed to display the session. Starting another round remains blocked."
+      },
+      "ready": {
+        "title": "Ready to explore",
+        "body": "Fixed example bet: {{bet}} credits. The animation shows a known scenario without sending a bet."
+      },
+      "spinning": {
+        "title": "Spinning…",
+        "body": "An example animation is in progress. Wait for all three reels to stop; the values have not yet been replaced by the final snapshot."
+      },
+      "stopping": {
+        "title": "Presenting the result…",
+        "body": "The reels stop in sequence. The complete snapshot will appear when the animation finishes."
+      },
+      "win": {
+        "title": "Match! +{{prize}} credits",
+        "body": "Three flowers on the line in this example. The displayed prize is the total credited for a bet of {{bet}} credits."
+      },
+      "loss": {
+        "title": "No match this round",
+        "body": "This snapshot illustrates a round with no prize and a bet of {{bet}} credits. No new bet was placed."
+      },
+      "insufficient": {
+        "title": "Insufficient balance",
+        "body": "The example has {{balance}} credits and a bet of {{bet}}. In an available session, choose a smaller bet or reset when no round is pending."
+      },
+      "offline": {
+        "title": "Offline",
+        "body": "This scenario represents an unavailable connection. A new round should wait until the session is restored."
+      },
+      "verifying": {
+        "title": "Checking result…",
+        "body": "The result is not confirmed yet. Do not start another round while the check is pending."
+      },
+      "failed": {
+        "title": "The result could not be confirmed",
+        "body": "The displayed value is the last reference, not a guarantee of an up-to-date balance. Check the same result before continuing, without resending the bet."
+      }
     }
   }
 }
