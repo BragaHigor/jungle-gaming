@@ -95,6 +95,11 @@
         }
       },
       "skills": "Conhecimentos",
+      "skillLabels": {
+        "restApis": "APIs REST",
+        "automatedTesting": "Testes",
+        "frontendArchitecture": "Arquitetura"
+      },
       "projects": "Projetos selecionados",
       "projectDescriptions": {
         "border": "Catálogo responsivo de filhotes com filtros, páginas de detalhes e galeria de imagens.",
@@ -165,6 +170,150 @@
       },
       "reel": "Rolo {{number}}",
       "delay": "+{{delay}} ms"
+    }
+  },
+  "game": {
+    "description": "Três rolos, quatro símbolos e uma linha de combinação. Explore a interface e as regras da demonstração.",
+    "disclaimer": "Créditos fictícios · sem dinheiro real",
+    "machine": "Máquina Lucky Canopy",
+    "navigation": {
+      "examples": "Exemplos"
+    },
+    "symbols": {
+      "leaf": "Folha",
+      "flower": "Flor",
+      "cherry": "Fruto",
+      "gem": "Gema"
+    },
+    "balance": {
+      "label": "Saldo",
+      "credits": "créditos",
+      "unknown": "—"
+    },
+    "bet": {
+      "label": "Aposta por rodada"
+    },
+    "status": {
+      "example": "Exemplo local",
+      "unavailable": "Em preparação",
+      "offline": "Sem conexão",
+      "failed": "Sem resposta",
+      "verifying": "Verificando…",
+      "loading": "Carregando…"
+    },
+    "sound": {
+      "on": "Som ligado",
+      "off": "Som desligado",
+      "unavailable": "Não foi possível ativar o áudio neste navegador. A interface continua disponível sem som."
+    },
+    "reel": {
+      "spinning": "Rolo {{number}}: girando",
+      "value": "Rolo {{number}}: {{symbol}}",
+      "unknown": "Rolo {{number}}: aguardando confirmação",
+      "placeholder": "?"
+    },
+    "actions": {
+      "spin": "Girar",
+      "spinning": "Girando…",
+      "animateExample": "Animar exemplo",
+      "recoverExample": "Verificar exemplo",
+      "resetExample": "Reiniciar exemplo",
+      "confirmReset": "Reiniciar",
+      "cancel": "Cancelar",
+      "close": "Fechar"
+    },
+    "rules": {
+      "title": "Combinações",
+      "table": "Tabela de combinações",
+      "line": "Na linha",
+      "prize": "Prêmio",
+      "withBet": "Com {{bet}}",
+      "times": "×",
+      "matches": {
+        "gem": "3 gemas",
+        "cherry": "3 frutos",
+        "flower": "3 flores",
+        "leaf": "3 folhas"
+      },
+      "intro": "A proposta do jogo usa 1.000 créditos fictícios e apostas de 10, 25 ou 50. Três símbolos iguais na linha central formam uma combinação. Não há pagamentos, saques ou valor monetário.",
+      "description": "Valores de apresentação com a aposta selecionada: {{bet}} créditos.",
+      "note": "O prêmio é o total creditado na rodada; a aposta é descontada uma única vez. Sem combinação, não há prêmio. Tabela ilustrativa, sem promessa de probabilidades ou RTP."
+    },
+    "history": {
+      "title": "Últimas rodadas",
+      "limit": "até 5",
+      "empty": "Suas rodadas aparecerão aqui",
+      "number": "#{{number}}",
+      "bet": "Aposta {{bet}}",
+      "prize": "+{{prize}}",
+      "noPrize": "Sem prêmio"
+    },
+    "reset": {
+      "title": "Reiniciar este exemplo?",
+      "description": "Somente o exemplo visual será restaurado para 1.000 créditos e histórico vazio. Nenhuma sessão ou rodada de servidor será alterada."
+    },
+    "examples": {
+      "title": "Exemplos da interface",
+      "description": "Cenários locais com valores fixos, sem apostas, sorteios ou conexão de rodadas. Animar reproduz uma prévia conhecida; não calcula um novo resultado. Trocar o cenário interrompe a animação anterior.",
+      "scenario": "Estado de exemplo",
+      "reduceMotion": "Reduzir movimento no exemplo",
+      "scenarios": {
+        "ready": "Pronto / histórico vazio",
+        "loading": "Carregamento",
+        "spinning": "Rolos girando",
+        "win": "Combinação / histórico preenchido",
+        "loss": "Sem combinação",
+        "insufficient": "Saldo insuficiente",
+        "offline": "Sem conexão",
+        "verifying": "Verificando resultado",
+        "failed": "Falha na confirmação"
+      }
+    },
+    "messages": {
+      "unavailable": {
+        "title": "As rodadas chegam em breve",
+        "body": "Ainda não há uma sessão de jogo disponível. Escolha a aposta, consulte a tabela e explore os exemplos da interface. Nenhum crédito será movimentado."
+      },
+      "loading": {
+        "title": "Carregando demonstração…",
+        "body": "Aguardando os dados necessários para apresentar a sessão. Uma nova rodada permanece bloqueada."
+      },
+      "ready": {
+        "title": "Pronto para explorar",
+        "body": "Aposta fixa do exemplo: {{bet}} créditos. A animação apresenta um cenário conhecido, sem enviar uma aposta."
+      },
+      "spinning": {
+        "title": "Girando…",
+        "body": "Animação de exemplo em andamento. Aguarde os três rolos pararem; os valores ainda não foram substituídos pelo quadro final."
+      },
+      "stopping": {
+        "title": "Apresentando o resultado…",
+        "body": "Os rolos param em sequência. O quadro completo será apresentado ao terminar a animação."
+      },
+      "win": {
+        "title": "Combinação! +{{prize}} créditos",
+        "body": "Três flores na linha neste exemplo. O prêmio exibido é o total creditado para uma aposta de {{bet}} créditos."
+      },
+      "loss": {
+        "title": "Rodada sem combinação",
+        "body": "Este quadro ilustra uma rodada sem prêmio, com aposta de {{bet}} créditos. Não foi realizada uma nova aposta."
+      },
+      "insufficient": {
+        "title": "Saldo insuficiente",
+        "body": "O exemplo tem {{balance}} créditos e uma aposta de {{bet}}. Numa sessão disponível, escolha uma aposta menor ou reinicie quando não houver rodada pendente."
+      },
+      "offline": {
+        "title": "Sem conexão",
+        "body": "Este cenário representa uma conexão indisponível. Uma nova rodada deve aguardar o restabelecimento da sessão."
+      },
+      "verifying": {
+        "title": "Verificando resultado…",
+        "body": "O resultado ainda não está confirmado. Não inicie outra rodada enquanto a verificação estiver pendente."
+      },
+      "failed": {
+        "title": "Não foi possível confirmar o resultado",
+        "body": "O valor exibido é a última referência, não uma garantia de saldo atualizado. Verifique o mesmo resultado antes de continuar, sem reenviar a aposta."
+      }
     }
   }
 }

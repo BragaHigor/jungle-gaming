@@ -1,6 +1,7 @@
 import type { ComponentProps } from "react";
 
 const paths = {
+  api: <path d="m8 5-6 7 6 7m8-14 6 7-6 7m-3-16-2 18" />,
   sun: (
     <>
       <circle cx="12" cy="12" r="4" />
@@ -12,6 +13,19 @@ const paths = {
   close: <path d="m6 6 12 12M6 18 18 6" />,
   arrow: <path d="M4 12h16m-6-6 6 6-6 6" />,
   chevronDown: <path d="m6 9 6 6 6-6" />,
+  info: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 11v6m0-10v.01" />
+    </>
+  ),
+  list: <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />,
+  reset: <path d="M3 10a9 9 0 1 1 1 7M3 4v6h6" />,
+  loader: <path d="M12 3a9 9 0 1 1-9 9" />,
+  volume: (
+    <path d="m11 4-6 5H2v6h3l6 5V4ZM15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" />
+  ),
+  mute: <path d="m11 4-6 5H2v6h3l6 5V4Zm6 5 5 6m0-6-5 6" />,
   mapPin: (
     <>
       <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" />

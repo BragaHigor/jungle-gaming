@@ -5,7 +5,6 @@ import { defaultLocale, locales, resources, type Locale } from "@/i18n/config";
 export function createI18n(locale: Locale) {
   const instance = createInstance();
 
-  // Resources are bundled, so initialization can finish before rendering.
   void instance.init({
     resources,
     lng: locale,

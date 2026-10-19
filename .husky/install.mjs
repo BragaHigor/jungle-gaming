@@ -8,7 +8,6 @@ if (
   process.exit(0);
 }
 
-// A source archive can run without a Git repository or local hooks.
 if (!existsSync(new URL("../.git", import.meta.url))) {
   process.exit(0);
 }
