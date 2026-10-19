@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { Icon } from "@/components/ui/icon";
 import { profile } from "@/content/profile";
 import { getTranslations } from "@/i18n/server";
@@ -13,6 +14,17 @@ export async function SiteFooter() {
           <p className="text-[1.625rem] leading-tight font-semibold">
             {profile.name}
           </p>
+          <nav
+            aria-label={t("catalog.links.label")}
+            className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground"
+          >
+            <Link href="/system" className="underline underline-offset-4">
+              {t("catalog.links.system")}
+            </Link>
+            <Link href="/showcase" className="underline underline-offset-4">
+              {t("catalog.links.showcase")}
+            </Link>
+          </nav>
           <div className="mt-4 flex flex-wrap gap-2">
             <Button asChild variant="outline">
               <a

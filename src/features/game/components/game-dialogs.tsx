@@ -46,10 +46,12 @@ export function ResetDialog({
   disabled,
   onReset,
   example = true,
+  description,
 }: {
   disabled: boolean;
   onReset: () => void;
   example?: boolean;
+  description?: string;
 }) {
   const { t } = useTranslation();
   return (
@@ -67,9 +69,12 @@ export function ResetDialog({
             {t(example ? "game.reset.title" : "game.api.resetTitle")}
           </AlertDialog.Title>
           <AlertDialog.Description className="game-dialog-description">
-            {t(
-              example ? "game.reset.description" : "game.api.resetDescription",
-            )}
+            {description ??
+              t(
+                example
+                  ? "game.reset.description"
+                  : "game.api.resetDescription",
+              )}
           </AlertDialog.Description>
           <div className="game-dialog-actions">
             <AlertDialog.Cancel asChild>

@@ -65,9 +65,7 @@ export function GameReels({
                         className={`game-cell${row === 1 ? " game-cell-center" : ""}${symbol ? ` symbol-${symbol}` : ""}`}
                       >
                         {spinning || !symbol ? (
-                          <span className="game-unknown">
-                            {t("game.reel.placeholder")}
-                          </span>
+                          <Icon name="question" className="game-unknown" />
                         ) : (
                           <Icon name={symbol} />
                         )}

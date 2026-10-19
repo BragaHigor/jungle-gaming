@@ -418,8 +418,8 @@
     },
     "messages": {
       "unavailable": {
-        "title": "Rounds are coming soon",
-        "body": "There is no game session available yet. Select a bet, check the paytable and explore the interface examples. No credits will be moved."
+        "title": "No session in this example",
+        "body": "This frame represents the interface before a session exists. Data remains unknown; no round will be sent."
       },
       "loading": {
         "title": "Loading demo…",
@@ -543,6 +543,98 @@
         "title": "Could not confirm",
         "body": "Check the message below. A connection failure does not guarantee that a round was cancelled."
       }
+    }
+  },
+  "catalog": {
+    "eyebrow": "Lucky Canopy / interface references",
+    "links": {
+      "label": "Project references",
+      "system": "Visual system",
+      "showcase": "State gallery",
+      "project": "Explore the project"
+    },
+    "system": {
+      "resetDescription": "Only this example's selection and paytable will return to 10 credits. The fixed preview and any game session remain unchanged.",
+      "title": "A shared visual language.",
+      "metadataTitle": "Visual system | Lucky Canopy",
+      "intro": "Colors, typography and components used in the project. A small reference for reviewing the interface and trying controls without starting a game session.",
+      "palette": "Colors and meaning",
+      "paletteNote": "The samples use the application's own tokens and follow the theme selected in the header. Color and text work together to identify each state.",
+      "tokens": {
+        "background": "Background",
+        "surface": "Surface",
+        "text": "Primary text",
+        "accent": "Accent",
+        "success": "Success",
+        "error": "Error"
+      },
+      "gradient": "The sunset gradient highlights primary actions and the game's visual identity.",
+      "typography": "Three fonts, defined roles.",
+      "samples": {
+        "body": "Interfaces with intention.",
+        "display": "Explore",
+        "script": "Lucky Canopy"
+      },
+      "fontRoles": {
+        "body": "Headings, paragraphs and controls.",
+        "display": "Prominent actions and game headings.",
+        "script": "Signature and minigame name."
+      },
+      "controls": "Controls in use",
+      "controlsNote": "These controls only change the examples below. No selection sends a bet, queries a balance or connects to the game.",
+      "buttons": {
+        "default": "Primary",
+        "outline": "Outline",
+        "ghost": "Ghost",
+        "disabled": "Disabled",
+        "loading": "Loading…"
+      },
+      "feedback": {
+        "initial": "Try the buttons or navigate with Tab.",
+        "default": "Primary button activated in this example.",
+        "outline": "Outline button activated in this example.",
+        "ghost": "Ghost button activated in this example.",
+        "reset": "Example restored to the initial selection."
+      },
+      "betNote": "Selection only updates this illustrative paytable. Reset restores the selection to 10 credits.",
+      "symbols": "Symbols with names",
+      "composition": "Components together",
+      "compositionNote": "A fixed winning example brings together reels, balance, message and history. Values are independent of your session; animations are disabled."
+    },
+    "showcase": {
+      "title": "Every state, without relying on a connection.",
+      "metadataTitle": "State gallery | Lucky Canopy",
+      "intro": "Explore deterministic loading, result and failure examples. They all use local fixtures and the game's visual components, without accessing or changing a real session."
+    },
+    "gallery": {
+      "scenario": "Example state",
+      "width": "Preview width",
+      "animate": "Enable animations in this preview",
+      "sizes": {
+        "compact": "Up to 320 px",
+        "medium": "Up to 768 px",
+        "fluid": "Available space"
+      },
+      "widthNote": "Width is limited to the space available on this page; this is not device emulation. Animations start off and respect the system's reduced motion preference.",
+      "caption": "Reference frame: {{scenario}}"
+    },
+    "preview": {
+      "machine": "Illustrative machine, read only",
+      "fixed": "Example data",
+      "readonly": "Read-only preview. It does not send rounds, query a balance or change your session."
+    },
+    "scenarios": {
+      "unavailable": "No session",
+      "ready": "Ready / empty history",
+      "loading": "Loading",
+      "spinning": "Spinning reels",
+      "stopping": "Sequential stopping",
+      "win": "Match / populated history",
+      "loss": "No match",
+      "insufficient": "Insufficient balance",
+      "offline": "Offline",
+      "verifying": "Verifying result",
+      "failed": "Confirmation failure"
     }
   }
 }

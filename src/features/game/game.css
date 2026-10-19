@@ -162,6 +162,8 @@
 .game-cell svg {
   width: clamp(24px, 5vw, 50px);
   height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 .game-cell-center {
   border-color: color-mix(in srgb, var(--highlight) 32%, transparent);
@@ -174,7 +176,6 @@
 }
 .game-unknown {
   color: var(--muted-foreground);
-  font-size: clamp(24px, 5vw, 44px);
 }
 .game-reel-shade {
   position: absolute;
