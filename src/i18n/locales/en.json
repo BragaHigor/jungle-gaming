@@ -24,7 +24,7 @@
   },
   "footer": {
     "independent": "Independent portfolio project.",
-    "affiliation": "Not officially affiliated with Jungle Gaming.",
+    "affiliation": "An independent web development demo.",
     "credits": "Virtual credits with no monetary value."
   },
   "project": {
@@ -161,20 +161,20 @@
       "body": "Tests cover rules, HTTP contracts, recovery and presentation. Integration uses test PostgreSQL to verify concurrency, rollback, idempotency and events between instances.",
       "check": "Lint, formatting, types, tests and build. Husky runs this command before normal commits.",
       "integration": "Runs database tests with TEST_DATABASE_URL and isolated temporary schemas.",
-      "delivery": "The GitHub Actions workflow is in the repository. Working branches start from develop and return through a PR; main is the production branch. Automatic Vercel delivery will be configured in the deployment stage."
+      "delivery": "Working branches start from develop and return through a PR. GitHub Actions validates the code and deploys develop to staging and main to production on Vercel. Services and pages are checked before production domains are promoted."
     },
     "limits": {
       "title": "Limits that guide what comes next.",
       "items": {
         "events": "LISTEN/NOTIFY does not store missed events. Reconnection recovers state through HTTP; a silently lost update in another tab may require a manual session refresh.",
         "scale": "Atomicity was tested between connections and processes. This does not measure traffic capacity. Each events instance keeps a direct database connection; additional layers should follow an observed need.",
-        "hosting": "Integration was validated locally with Neon. Socket.IO function discovery, routing and HTTPS/WSS on Vercel still need hosted validation. Final quality review and documentation are also part of the next deliveries."
+        "hosting": "Web and events are hosted on Vercel, with separate Neon databases for each environment. HTTP health checks do not prove sessions or WebSockets work: those flows also need verification after deployment. Beta services and connection limits require monitoring."
       }
     },
     "repository": {
       "title": "Continue through the code.",
       "body": "The examples above link to real files on the develop branch. Explore the service, components and tests to follow the decisions through the implementation.",
-      "credit": "An original project by Higor Braga, with occasional use of AI tools during development. Not officially affiliated with Jungle Gaming."
+      "credit": "An original project by Higor Braga, with occasional use of AI tools during development. An independent web development demo."
     }
   },
   "language": {
