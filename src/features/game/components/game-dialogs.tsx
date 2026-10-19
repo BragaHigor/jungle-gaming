@@ -45,9 +45,11 @@ export function RulesDialog({ bet }: { bet: Bet }) {
 export function ResetDialog({
   disabled,
   onReset,
+  example = true,
 }: {
   disabled: boolean;
   onReset: () => void;
+  example?: boolean;
 }) {
   const { t } = useTranslation();
   return (
@@ -55,17 +57,19 @@ export function ResetDialog({
       <AlertDialog.Trigger asChild>
         <Button variant="ghost" disabled={disabled}>
           <Icon name="reset" />
-          {t("game.actions.resetExample")}
+          {t(example ? "game.actions.resetExample" : "game.api.reset")}
         </Button>
       </AlertDialog.Trigger>
       <AlertDialog.Portal>
         <AlertDialog.Overlay className="game-dialog-overlay" />
         <AlertDialog.Content className="game-dialog">
           <AlertDialog.Title className="game-dialog-title">
-            {t("game.reset.title")}
+            {t(example ? "game.reset.title" : "game.api.resetTitle")}
           </AlertDialog.Title>
           <AlertDialog.Description className="game-dialog-description">
-            {t("game.reset.description")}
+            {t(
+              example ? "game.reset.description" : "game.api.resetDescription",
+            )}
           </AlertDialog.Description>
           <div className="game-dialog-actions">
             <AlertDialog.Cancel asChild>

@@ -71,7 +71,7 @@
       "titleStart": "Interfaces with intention.",
       "titleAccent": "Interactions",
       "titleEnd": "with personality.",
-      "description": "I\u0027m a full stack developer focused on front-end. I work with React, Next.js and TypeScript to turn ideas into interfaces and digital experiences.",
+      "description": "I'm a full stack developer focused on front-end. I work with React, Next.js and TypeScript to turn ideas into interfaces and digital experiences.",
       "location": "{{city}} / {{region}} · Brazil",
       "demo": "Explore the demo",
       "project": "About the project"
@@ -124,11 +124,11 @@
         },
         "history": {
           "title": "Round history",
-          "description": "The game will include a summary of the last five rounds, with bets and results."
+          "description": "View the last five confirmed rounds, including bet and result."
         }
       },
       "disclaimer": "A demo with no real money.",
-      "progress": "In development. The machines on this page are visual previews; the demo does not run rounds yet."
+      "progress": "The machines on this page are illustrative previews. In the demo, the server confirms rounds and balance."
     },
     "preview": {
       "edition": "No. 01 · 3 reels",
@@ -157,11 +157,11 @@
       },
       "data": {
         "title": "Application data and states",
-        "description": "The foundation already includes an HTTP query with loading and error states. Server-confirmed game results will be the next step in separating data from presentation."
+        "description": "Sessions, balances and rounds are confirmed by the server. Axios handles requests, and TanStack Query keeps remote state separate from animation."
       },
       "motion": {
         "title": "Interactions and animation",
-        "description": "The game is designed to stop the reels in sequence, 260 ms apart. Results will also be communicated through text, respecting reduced motion preferences."
+        "description": "The reels display the confirmed result in sequence, with 260 ms between stops. Text and reduced motion keep the experience accessible."
       },
       "states": {
         "ready": "Ready",
@@ -195,11 +195,12 @@
     },
     "status": {
       "example": "Local example",
-      "unavailable": "Coming soon",
+      "unavailable": "No session",
       "offline": "Offline",
       "failed": "No response",
       "verifying": "Checking…",
-      "loading": "Loading…"
+      "loading": "Loading…",
+      "http": "Confirmed balance"
     },
     "sound": {
       "on": "Sound on",
@@ -237,7 +238,7 @@
       },
       "intro": "The game concept uses 1,000 virtual credits and bets of 10, 25 or 50. Three identical symbols on the centre line form a match. There are no payments, withdrawals or monetary value.",
       "description": "Display values for the selected bet: {{bet}} credits.",
-      "note": "The payout is the total credited for the round; the bet is deducted once. No match means no prize. This is an illustrative table with no claim about probabilities or RTP."
+      "note": "The payout is the total credited for the round; the bet is deducted once. No match means no prize. There is no claim about probabilities or RTP."
     },
     "history": {
       "title": "Recent rounds",
@@ -313,6 +314,80 @@
       "failed": {
         "title": "The result could not be confirmed",
         "body": "The displayed value is the last reference, not a guarantee of an up-to-date balance. Check the same result before continuing, without resending the bet."
+      }
+    },
+    "api": {
+      "start": "Start demo",
+      "refresh": "Refresh session",
+      "verify": "Check result",
+      "retry": "Try to complete",
+      "reset": "Reset session",
+      "resetTitle": "Reset the demo?",
+      "resetDescription": "Your balance will return to 1,000 fictional credits and the displayed history will be cleared. No real money is involved. The reset is only confirmed after the server responds.",
+      "pending": "The result is still unconfirmed. Check it or try to complete the same request. No new bet will be created.",
+      "errors": {
+        "INVALID_INPUT": "The request was rejected. Refresh the session before continuing.",
+        "SESSION_REQUIRED": "Start the demo to receive your fictional credits.",
+        "SESSION_EXPIRED": "Your session has expired. Start a new demo to continue.",
+        "SESSION_CHANGED": "The session changed in another tab. Refresh the data before continuing.",
+        "SESSION_LIMIT": "This session has reached its operation limit. Wait for it to expire before starting another.",
+        "INSUFFICIENT_BALANCE": "There are not enough credits for this bet. Refresh the session and choose a lower bet or reset.",
+        "IDEMPOTENCY_CONFLICT": "This request could not be reconciled. Refresh the session before continuing.",
+        "ROUND_NOT_FOUND": "The round has not been found yet. This does not confirm the request was cancelled.",
+        "FORBIDDEN_ORIGIN": "The request origin was rejected. Reopen the demo using the site address.",
+        "UNSUPPORTED_MEDIA_TYPE": "The request format was rejected. Refresh the page.",
+        "PAYLOAD_TOO_LARGE": "The request exceeded the allowed size. Refresh the page.",
+        "GAME_UNAVAILABLE": "The service is unavailable. Wait and check again.",
+        "NETWORK_ERROR": "The connection failed or timed out. The displayed balance is the last confirmation received.",
+        "INVALID_RESPONSE": "The response could not be validated. Check the session before continuing.",
+        "STORAGE_UNAVAILABLE": "Recovery data could not be saved in this tab. Allow temporary storage to play safely."
+      },
+      "checking": "Checking…"
+    },
+    "liveMessages": {
+      "unavailable": {
+        "title": "Start the demo",
+        "body": "A session uses fictional credits and stores rounds on the server. No payment is required."
+      },
+      "loading": {
+        "title": "Loading session…",
+        "body": "Fetching the last confirmed balance and history."
+      },
+      "ready": {
+        "title": "Ready to play",
+        "body": "Choose a bet and spin. The server confirms the symbols, prize and balance."
+      },
+      "spinning": {
+        "title": "Spinning…",
+        "body": "Waiting for round confirmation. A new bet remains blocked."
+      },
+      "stopping": {
+        "title": "Presenting the result…",
+        "body": "The server confirmed the round. The reels only display the received symbols."
+      },
+      "win": {
+        "title": "Match! +{{prize}} credits",
+        "body": "The last round’s prize is already included in the confirmed balance."
+      },
+      "loss": {
+        "title": "No match this round",
+        "body": "The last round was confirmed without a prize. The balance already includes the bet deduction."
+      },
+      "insufficient": {
+        "title": "Not enough credits",
+        "body": "The last confirmed balance is {{balance}} credits for a bet of {{bet}}. Choose a lower bet or reset the session."
+      },
+      "offline": {
+        "title": "No connection",
+        "body": "Wait for the connection and check the session before continuing."
+      },
+      "verifying": {
+        "title": "Checking session…",
+        "body": "Fetching confirmed data. Do not start another round while verification is pending."
+      },
+      "failed": {
+        "title": "Could not confirm",
+        "body": "Check the message below. A connection failure does not guarantee that a round was cancelled."
       }
     }
   }

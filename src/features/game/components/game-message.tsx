@@ -8,9 +8,11 @@ import type { GameView } from "@/features/game/presentation";
 export function GameMessage({
   view,
   onRecover,
+  example = true,
 }: {
   view: GameView;
   onRecover?: () => void;
+  example?: boolean;
 }) {
   const { t, i18n } = useTranslation();
   const fmt = new Intl.NumberFormat(i18n.language);
@@ -34,18 +36,24 @@ export function GameMessage({
       />
       <div>
         <h3>
-          {t(`game.messages.${view.phase}.title`, {
-            prize: fmt.format(view.prize),
-          })}
+          {t(
+            `game.${example ? "messages" : "liveMessages"}.${view.phase}.title`,
+            {
+              prize: fmt.format(view.prize),
+            },
+          )}
         </h3>
         <p>
-          {t(`game.messages.${view.phase}.body`, {
-            bet: fmt.format(view.bet),
-            balance:
-              view.balance === null
-                ? t("game.balance.unknown")
-                : fmt.format(view.balance),
-          })}
+          {t(
+            `game.${example ? "messages" : "liveMessages"}.${view.phase}.body`,
+            {
+              bet: fmt.format(view.bet),
+              balance:
+                view.balance === null
+                  ? t("game.balance.unknown")
+                  : fmt.format(view.balance),
+            },
+          )}
         </p>
         {view.phase === "failed" && onRecover && (
           <Button variant="outline" onClick={onRecover} className="mt-3">
