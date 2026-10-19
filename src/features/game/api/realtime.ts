@@ -20,6 +20,7 @@ export function createRealtimeClient(): Socket<
 
   return io(url, {
     path: process.env.NEXT_PUBLIC_REALTIME_PATH || realtimePath,
+    addTrailingSlash: false,
     transports: ["websocket"],
     autoConnect: false,
     reconnectionAttempts: 3,
