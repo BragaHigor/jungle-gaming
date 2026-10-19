@@ -16,3 +16,4 @@ export interface RealtimeServerEvents {
 }
 
 export const realtimePath = "/api/realtime/socket.io";
+export const realtimeHealthPath = "/api/realtime/health";

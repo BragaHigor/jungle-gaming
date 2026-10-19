@@ -3,14 +3,9 @@ import { fileURLToPath } from "node:url";
 
 import { createRealtimeServer } from "../src/server/realtime/create-server";
 import { createRealtimeDatabase } from "../src/server/realtime/database";
+import { realtimeOrigins } from "../src/server/realtime/config";
 
-const origins = (
-  process.env.REALTIME_ALLOWED_ORIGINS ||
-  (process.env.NODE_ENV === "production" ? "" : "http://localhost:3000")
-)
-  .split(",")
-  .filter((origin) => origin.trim())
-  .map((origin) => new URL(origin.trim()).origin);
+const origins = realtimeOrigins(process.env);
 
 if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL_REQUIRED");
 const database = createRealtimeDatabase(

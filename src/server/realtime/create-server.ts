@@ -3,6 +3,7 @@ import { Server } from "socket.io";
 
 import {
   realtimePath,
+  realtimeHealthPath,
   type RealtimeClientEvents,
   type RealtimeServerEvents,
 } from "../../lib/realtime-contracts";
@@ -24,7 +25,11 @@ export function createRealtimeServer(
 ) {
   const server = createServer((request, response) => {
     response.setHeader("Content-Type", "application/json");
-    response.statusCode = request.url === "/health" ? 200 : 404;
+    response.setHeader("Cache-Control", "no-store");
+    response.statusCode =
+      request.url === "/health" || request.url === realtimeHealthPath
+        ? 200
+        : 404;
     response.end(
       JSON.stringify({
         status: response.statusCode === 200 ? "ok" : "not_found",
