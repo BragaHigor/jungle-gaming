@@ -20,7 +20,7 @@ import {
   InterfaceProvider,
   useInterface,
 } from "@/features/game/components/interface-provider";
-import { createUnavailableView } from "@/features/game/presentation";
+import { remoteView } from "@/features/game/remote-view";
 
 function WorkspaceLayout() {
   const { t } = useTranslation();
@@ -63,7 +63,7 @@ function WorkspaceLayout() {
 
 function MachinePanel() {
   const controller = useInterface();
-  return <GameBoard view={createUnavailableView(controller.bet)} />;
+  return <GameBoard view={remoteView(controller.remote, controller.bet)} />;
 }
 
 function RulesPanel() {
@@ -75,7 +75,11 @@ function RulesPanel() {
       <p className="leading-relaxed text-muted-foreground">
         {t("game.rules.intro")}
       </p>
-      <BetSelector bet={controller.bet} onChange={controller.setBet} />
+      <BetSelector
+        bet={controller.bet}
+        onChange={controller.setBet}
+        disabled={controller.remote.busy || !!controller.remote.pending}
+      />
       <Paytable bet={controller.bet} />
     </section>
   );

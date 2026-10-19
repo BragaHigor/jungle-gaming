@@ -13,6 +13,7 @@ import {
   RulesDialog,
 } from "@/features/game/components/game-dialogs";
 import { useInterface } from "@/features/game/components/interface-provider";
+import { SessionControls } from "./session-controls";
 import { canReset, isBusy, type GameView } from "@/features/game/presentation";
 
 export function GameBoard({
@@ -26,7 +27,17 @@ export function GameBoard({
   const controller = useInterface();
   const fmt = new Intl.NumberFormat(i18n.language);
   const connectionStatus = !example
-    ? "unavailable"
+    ? controller.remote.pending
+      ? "verifying"
+      : controller.remote.authenticationRequired
+        ? "unavailable"
+        : controller.remote.error
+          ? "failed"
+          : controller.remote.busy
+            ? "loading"
+            : controller.remote.session
+              ? "http"
+              : "unavailable"
     : view.phase === "offline"
       ? "offline"
       : view.phase === "failed"
@@ -36,7 +47,7 @@ export function GameBoard({
           : view.phase === "loading"
             ? "loading"
             : "example";
-  const busy = isBusy(view.phase);
+  const busy = example ? isBusy(view.phase) : controller.remote.busy;
   const canAnimate =
     example &&
     ["ready", "win", "loss"].includes(view.phase) &&
@@ -73,15 +84,19 @@ export function GameBoard({
           <div className="game-controls">
             <BetSelector
               bet={view.bet}
-              disabled={example || busy}
+              disabled={example || busy || !!controller.remote.pending}
               onChange={controller.setBet}
             />
             <Button
               className="game-spin"
-              disabled={!canAnimate}
+              disabled={example ? !canAnimate : !controller.remote.canPlay}
               aria-busy={busy}
               aria-describedby="game-message"
-              onClick={() => controller.dispatch({ type: "animate" })}
+              onClick={() =>
+                example
+                  ? controller.dispatch({ type: "animate" })
+                  : void controller.remote.spin()
+              }
             >
               <Icon
                 name={busy ? "loader" : "reset"}
@@ -89,7 +104,9 @@ export function GameBoard({
               />
               {t(
                 busy
-                  ? "game.actions.spinning"
+                  ? ["spinning", "stopping"].includes(view.phase)
+                    ? "game.actions.spinning"
+                    : "game.api.checking"
                   : example
                     ? "game.actions.animateExample"
                     : "game.actions.spin",
@@ -98,12 +115,14 @@ export function GameBoard({
           </div>
           <GameMessage
             view={view}
+            example={example}
             onRecover={
               example
                 ? () => controller.dispatch({ type: "recover" })
                 : undefined
             }
           />
+          {!example && <SessionControls />}
         </div>
         {controller.sound.unavailable && (
           <p role="status" className="game-sound-error">
@@ -114,9 +133,16 @@ export function GameBoard({
           <RulesDialog bet={view.bet} />
           <ResetDialog
             disabled={
-              !example || !canReset(view) || !!controller.example.transition
+              example
+                ? !canReset(view) || !!controller.example.transition
+                : !controller.remote.canReset
             }
-            onReset={() => controller.dispatch({ type: "reset" })}
+            example={example}
+            onReset={() =>
+              example
+                ? controller.dispatch({ type: "reset" })
+                : void controller.remote.reset()
+            }
           />
         </div>
       </section>

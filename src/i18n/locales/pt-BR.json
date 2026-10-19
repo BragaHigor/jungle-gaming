@@ -124,11 +124,11 @@
         },
         "history": {
           "title": "Histórico de rodadas",
-          "description": "O jogo terá um resumo das últimas cinco jogadas, com aposta e resultado."
+          "description": "Consulte as últimas cinco rodadas confirmadas, com aposta e resultado."
         }
       },
       "disclaimer": "Demonstração sem dinheiro real.",
-      "progress": "Em desenvolvimento. As máquinas desta página são prévias visuais; a demonstração ainda não realiza rodadas."
+      "progress": "As máquinas desta página são prévias ilustrativas. Na demonstração, o servidor confirma as rodadas e o saldo."
     },
     "preview": {
       "edition": "Nº 01 · 3 rolos",
@@ -157,11 +157,11 @@
       },
       "data": {
         "title": "Dados e estados da aplicação",
-        "description": "A base já integra uma consulta HTTP com estados de carregamento e falha. No jogo, a confirmação do resultado pelo servidor será o próximo passo dessa separação entre dados e apresentação."
+        "description": "Sessão, saldo e rodadas são confirmados pelo servidor. Axios realiza as requisições, e TanStack Query mantém o estado remoto separado da animação."
       },
       "motion": {
         "title": "Interações e animações",
-        "description": "A direção para o jogo é parar os rolos em sequência, com 260 ms entre eles. O resultado também será comunicado por texto, respeitando a preferência por movimento reduzido."
+        "description": "Os rolos apresentam o resultado confirmado em sequência, com 260 ms entre paradas. Texto e movimento reduzido mantêm a experiência acessível."
       },
       "states": {
         "ready": "Pronto",
@@ -195,11 +195,12 @@
     },
     "status": {
       "example": "Exemplo local",
-      "unavailable": "Em preparação",
+      "unavailable": "Sem sessão",
       "offline": "Sem conexão",
       "failed": "Sem resposta",
       "verifying": "Verificando…",
-      "loading": "Carregando…"
+      "loading": "Carregando…",
+      "http": "Saldo confirmado"
     },
     "sound": {
       "on": "Som ligado",
@@ -237,7 +238,7 @@
       },
       "intro": "A proposta do jogo usa 1.000 créditos fictícios e apostas de 10, 25 ou 50. Três símbolos iguais na linha central formam uma combinação. Não há pagamentos, saques ou valor monetário.",
       "description": "Valores de apresentação com a aposta selecionada: {{bet}} créditos.",
-      "note": "O prêmio é o total creditado na rodada; a aposta é descontada uma única vez. Sem combinação, não há prêmio. Tabela ilustrativa, sem promessa de probabilidades ou RTP."
+      "note": "O prêmio é o total creditado na rodada; a aposta é descontada uma única vez. Sem combinação, não há prêmio. Não há promessa de probabilidades ou RTP."
     },
     "history": {
       "title": "Últimas rodadas",
@@ -313,6 +314,80 @@
       "failed": {
         "title": "Não foi possível confirmar o resultado",
         "body": "O valor exibido é a última referência, não uma garantia de saldo atualizado. Verifique o mesmo resultado antes de continuar, sem reenviar a aposta."
+      }
+    },
+    "api": {
+      "start": "Iniciar demonstração",
+      "refresh": "Atualizar sessão",
+      "verify": "Verificar resultado",
+      "retry": "Tentar concluir",
+      "reset": "Reiniciar sessão",
+      "resetTitle": "Reiniciar a demonstração?",
+      "resetDescription": "Seu saldo voltará a 1.000 créditos fictícios e o histórico exibido será limpo. Não há dinheiro real. O reinício só será confirmado após a resposta do servidor.",
+      "pending": "O resultado ainda não foi confirmado. Verifique ou tente concluir a mesma solicitação. Nenhuma aposta nova será criada.",
+      "errors": {
+        "INVALID_INPUT": "A solicitação não foi aceita. Atualize a sessão antes de continuar.",
+        "SESSION_REQUIRED": "Inicie a demonstração para receber seus créditos fictícios.",
+        "SESSION_EXPIRED": "Sua sessão expirou. Inicie uma nova demonstração para continuar.",
+        "SESSION_CHANGED": "A sessão foi alterada em outra aba. Atualize os dados antes de continuar.",
+        "SESSION_LIMIT": "Esta sessão atingiu o limite de operações. Aguarde sua expiração para iniciar outra.",
+        "INSUFFICIENT_BALANCE": "Saldo insuficiente para essa aposta. Atualize a sessão e escolha um valor menor ou reinicie.",
+        "IDEMPOTENCY_CONFLICT": "Não foi possível conciliar essa solicitação. Atualize a sessão antes de continuar.",
+        "ROUND_NOT_FOUND": "A rodada ainda não foi encontrada. Isso não confirma que a solicitação foi cancelada.",
+        "FORBIDDEN_ORIGIN": "A origem da solicitação não foi aceita. Reabra a demonstração pelo endereço do site.",
+        "UNSUPPORTED_MEDIA_TYPE": "O formato da solicitação não foi aceito. Atualize a página.",
+        "PAYLOAD_TOO_LARGE": "A solicitação ultrapassou o limite permitido. Atualize a página.",
+        "GAME_UNAVAILABLE": "O serviço está indisponível. Aguarde e verifique novamente.",
+        "NETWORK_ERROR": "A conexão falhou ou demorou demais. O saldo exibido é a última confirmação recebida.",
+        "INVALID_RESPONSE": "A resposta não pôde ser validada. Verifique a sessão antes de continuar.",
+        "STORAGE_UNAVAILABLE": "Não foi possível guardar os dados de recuperação nesta aba. Permita o armazenamento temporário para jogar com segurança."
+      },
+      "checking": "Verificando…"
+    },
+    "liveMessages": {
+      "unavailable": {
+        "title": "Inicie a demonstração",
+        "body": "Uma sessão usa créditos fictícios e guarda as rodadas no servidor. Nenhum pagamento é necessário."
+      },
+      "loading": {
+        "title": "Carregando sessão…",
+        "body": "Buscando o último saldo e histórico confirmados."
+      },
+      "ready": {
+        "title": "Pronto para jogar",
+        "body": "Escolha uma aposta e gire. O servidor confirma os símbolos, o prêmio e o saldo."
+      },
+      "spinning": {
+        "title": "Girando…",
+        "body": "Aguardando a confirmação da rodada. Uma nova aposta permanece bloqueada."
+      },
+      "stopping": {
+        "title": "Apresentando o resultado…",
+        "body": "O servidor confirmou a rodada. Os rolos apenas apresentam os símbolos recebidos."
+      },
+      "win": {
+        "title": "Combinação! +{{prize}} créditos",
+        "body": "O prêmio da última rodada já está incluído no saldo confirmado."
+      },
+      "loss": {
+        "title": "Rodada sem combinação",
+        "body": "A última rodada foi confirmada sem prêmio. O saldo já inclui o desconto da aposta."
+      },
+      "insufficient": {
+        "title": "Saldo insuficiente",
+        "body": "O último saldo confirmado é {{balance}} créditos para uma aposta de {{bet}}. Escolha uma aposta menor ou reinicie a sessão."
+      },
+      "offline": {
+        "title": "Sem conexão",
+        "body": "Aguarde a conexão e verifique a sessão antes de continuar."
+      },
+      "verifying": {
+        "title": "Verificando sessão…",
+        "body": "Consultando os dados confirmados. Não inicie outra rodada enquanto a verificação estiver pendente."
+      },
+      "failed": {
+        "title": "Não foi possível confirmar",
+        "body": "Confira a mensagem abaixo. Uma falha de conexão não garante que uma rodada tenha sido cancelada."
       }
     }
   }

@@ -9,6 +9,7 @@ import {
 import { useGameSound } from "@/features/game/hooks/use-game-sound";
 import { useReducedMotion } from "@/features/game/hooks/use-reduced-motion";
 import type { Bet } from "@/features/game/presentation";
+import { useGameSession } from "./use-game-session";
 
 export function useGameInterface() {
   const [bet, setBet] = useState<Bet>(10);
@@ -22,6 +23,7 @@ export function useGameInterface() {
   const reducedMotion = prefersReducedMotion || reduceExample;
   const sound = useGameSound();
   const play = sound.play;
+  const remote = useGameSession(bet, prefersReducedMotion, play);
 
   useEffect(() => {
     if (!example.transition) return;
@@ -53,6 +55,7 @@ export function useGameInterface() {
 
   return {
     bet,
+    remote,
     setBet,
     example,
     dispatch,

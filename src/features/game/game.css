@@ -587,6 +587,14 @@
 .game-loading-icon {
   animation: game-turn 1.2s linear infinite;
 }
+.game-session-controls {
+  display: grid;
+  gap: 12px;
+  padding: 0 20px 20px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+  line-height: 1.6;
+}
 [data-reduced-motion="true"] .game-loading-icon,
 .game-reel-area[data-reduced-motion="true"] .game-cell-center {
   animation: none;
