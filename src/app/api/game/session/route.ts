@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { GameError } from "@/server/game/errors";
+import { createSessionSchema } from "@/server/game/validation";
 import {
   endpoint,
   json,
@@ -27,7 +28,7 @@ export function GET(request: NextRequest) {
 export function POST(request: NextRequest) {
   return endpoint(async () => {
     validateMutation(request);
-    await readInput(request, []);
+    await readInput(request, createSessionSchema);
     const service = getGameService();
     const previous = tokenFromRequest(request);
     if (previous) {

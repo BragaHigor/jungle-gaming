@@ -64,6 +64,93 @@ async function session() {
 }
 
 describe("contrato HTTP e proteção da sessão", () => {
+  it.each([
+    ["nulo", null],
+    ["lista", []],
+    ["booleano", false],
+    ["texto", "{}"],
+    ["campo desconhecido", { extra: true }],
+  ])(
+    "rejeita criação de sessão com corpo %s sem chamar o serviço",
+    async (_label, body) => {
+      const response = await createSession(request("session", body));
+      expect(response.status).toBe(400);
+      expect(await response.json()).toEqual({
+        error: { code: "INVALID_INPUT" },
+      });
+      expect(getGameService).not.toHaveBeenCalled();
+    },
+  );
+
+  it.each([
+    ["texto", "0"],
+    ["negativa", -1],
+    ["fracionária", 0.5],
+    ["acima do limite", 501],
+  ])(
+    "rejeita versão %s no reinício sem alterar a sessão",
+    async (_label, version) => {
+      const { token, data } = await session();
+      const resetSpy = vi.spyOn(service, "reset");
+      const response = await reset(
+        request(
+          "session/reset",
+          { requestId: randomUUID(), generation: data.generation, version },
+          token,
+        ),
+      );
+      expect(response.status).toBe(400);
+      expect(await response.json()).toEqual({
+        error: { code: "INVALID_INPUT" },
+      });
+      expect(resetSpy).not.toHaveBeenCalled();
+    },
+  );
+
+  it("normaliza UUIDs em maiúsculas sem criar outra rodada na repetição", async () => {
+    const { token, data } = await session();
+    const input = {
+      requestId: randomUUID(),
+      generation: data.generation,
+      bet: 10,
+    };
+    const original = await play(request("rounds", input, token));
+    const repeated = await play(
+      request(
+        "rounds",
+        {
+          ...input,
+          requestId: input.requestId.toUpperCase(),
+          generation: input.generation.toUpperCase(),
+        },
+        token,
+      ),
+    );
+    expect(original.status).toBe(200);
+    expect(repeated.status).toBe(200);
+    const result = await original.json();
+    expect(await repeated.json()).toEqual(result);
+    const lookup = await getRound(
+      request(`rounds/${input.requestId}`, undefined, token),
+      { params: Promise.resolve({ id: input.requestId.toUpperCase() }) },
+    );
+    expect(await lookup.json()).toEqual(result);
+    const current = await getSession(request("session", undefined, token));
+    expect(await current.json()).toMatchObject({ version: 1, roundCount: 1 });
+  });
+
+  it("exige UUID v4 nos parâmetros da consulta", async () => {
+    const { token } = await session();
+    const response = await getRound(
+      request("rounds/invalido", undefined, token),
+      {
+        params: Promise.resolve({ id: "d9428888-122b-11e1-b85c-61cd3cbb3210" }),
+      },
+    );
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({ error: { code: "INVALID_INPUT" } });
+  });
+
   it("cria cookie HTTP-only e retorna somente dados públicos sem cache", async () => {
     const response = await createSession(request("session", {}));
     expect(response.status).toBe(201);

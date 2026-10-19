@@ -4,10 +4,9 @@ import {
   json,
   readInput,
   sessionHash,
-  validateId,
   validateMutation,
 } from "@/server/game/http";
-import { validateBet } from "@/server/game/rules";
+import { roundInputSchema } from "@/server/game/validation";
 import { getGameService } from "@/server/game/runtime";
 
 export const runtime = "nodejs";
@@ -23,12 +22,7 @@ export function POST(request: NextRequest) {
   return endpoint(async () => {
     validateMutation(request);
     const hash = sessionHash(request);
-    const data = await readInput(request, ["requestId", "generation", "bet"]);
-    const input = {
-      requestId: validateId(data.requestId),
-      generation: validateId(data.generation),
-      bet: validateBet(data.bet),
-    };
+    const input = await readInput(request, roundInputSchema);
     return json(await getGameService().play(hash, input));
   });
 }

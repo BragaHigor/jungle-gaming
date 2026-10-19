@@ -1,11 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
+import type { z } from "zod";
 import type { GameApiError, GameErrorCode } from "@/features/game/contracts";
 import { GameError } from "./errors";
 import { hashSessionToken } from "./runtime";
+import { parseInput, sessionTokenSchema } from "./validation";
 
 export const sessionCookie = "canopy-session";
-const uuidPattern =
-  /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
 const statusCodes: Record<GameErrorCode, number> = {
   INVALID_INPUT: 400,
   SESSION_REQUIRED: 401,
@@ -39,7 +39,8 @@ export async function endpoint(work: () => Promise<NextResponse>) {
 
 export function tokenFromRequest(request: NextRequest) {
   const token = request.cookies.get(sessionCookie)?.value;
-  return token && /^[a-f0-9]{64}$/.test(token) ? token : null;
+  const result = sessionTokenSchema.safeParse(token);
+  return result.success ? result.data : null;
 }
 
 export function sessionHash(request: NextRequest) {
@@ -60,26 +61,7 @@ export function validateMutation(request: NextRequest) {
   }
 }
 
-export function validateId(value: unknown): string {
-  if (typeof value !== "string" || !uuidPattern.test(value)) {
-    throw new GameError("INVALID_INPUT");
-  }
-  return value.toLowerCase();
-}
-
-export function validateVersion(value: unknown): number {
-  if (
-    typeof value !== "number" ||
-    !Number.isSafeInteger(value) ||
-    value < 0 ||
-    value > 500
-  ) {
-    throw new GameError("INVALID_INPUT");
-  }
-  return value;
-}
-
-export async function readInput(request: NextRequest, keys: readonly string[]) {
+export async function readInput<T>(request: NextRequest, schema: z.ZodType<T>) {
   const reader = request.body?.getReader();
   if (!reader) throw new GameError("INVALID_INPUT");
   let size = 0;
@@ -104,14 +86,5 @@ export async function readInput(request: NextRequest, keys: readonly string[]) {
   } catch {
     throw new GameError("INVALID_INPUT");
   }
-  if (
-    !data ||
-    typeof data !== "object" ||
-    Array.isArray(data) ||
-    Object.keys(data).length !== keys.length ||
-    !keys.every((key) => Object.hasOwn(data, key))
-  ) {
-    throw new GameError("INVALID_INPUT");
-  }
-  return data as Record<string, unknown>;
+  return parseInput(schema, data);
 }
