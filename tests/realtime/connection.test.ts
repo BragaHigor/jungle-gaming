@@ -41,6 +41,29 @@ function createClient(origin?: string) {
   return client;
 }
 
+describe("saúde HTTP do serviço de eventos", () => {
+  it.each(["/health", "/api/realtime/health"])(
+    "responde no caminho %s sem criar uma conexão Socket.IO",
+    async (path) => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_REALTIME_URL}${path}`,
+      );
+      expect(response.status).toBe(200);
+      expect(response.headers.get("cache-control")).toBe("no-store");
+      expect(await response.json()).toEqual({ status: "ok" });
+      expect(infrastructure.io.sockets.sockets.size).toBe(0);
+    },
+  );
+
+  it("não apresenta rotas desconhecidas como serviço saudável", async () => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_REALTIME_URL}/api/realtime/unknown`,
+    );
+    expect(response.status).toBe(404);
+    expect(await response.json()).toEqual({ status: "not_found" });
+  });
+});
+
 describe("restrições da conexão em tempo real", () => {
   it("valida eventos, sincroniza ao conectar e remove listeners ao sair", async () => {
     const client = createClient("http://localhost:3000");

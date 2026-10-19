@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { getHealth } from "@/features/game/api/health";
+import { GET } from "@/app/api/health/route";
 import { http } from "@/lib/http";
 
 const originalAdapter = http.defaults.adapter;
@@ -21,6 +22,13 @@ function respondWith(data: unknown) {
 }
 
 describe("consulta de disponibilidade da aplicação", () => {
+  it("evita cache da resposta usada para conferir o deploy", async () => {
+    const response = GET();
+    expect(response.status).toBe(200);
+    expect(response.headers.get("cache-control")).toBe("no-store");
+    expect(await response.json()).toEqual({ status: "ok" });
+  });
+
   it("aceita o contrato esperado de disponibilidade", async () => {
     respondWith({ status: "ok" });
     await expect(getHealth(new AbortController().signal)).resolves.toEqual({
