@@ -9,16 +9,18 @@ export function GameMessage({
   view,
   onRecover,
   example = true,
+  id,
 }: {
   view: GameView;
   onRecover?: () => void;
   example?: boolean;
+  id?: string;
 }) {
   const { t, i18n } = useTranslation();
   const fmt = new Intl.NumberFormat(i18n.language);
   return (
     <div
-      id="game-message"
+      id={id}
       className="game-message"
       data-phase={view.phase}
       aria-live="polite"
@@ -35,14 +37,14 @@ export function GameMessage({
         className="shrink-0"
       />
       <div>
-        <h3>
+        <h2>
           {t(
             `game.${example ? "messages" : "liveMessages"}.${view.phase}.title`,
             {
               prize: fmt.format(view.prize),
             },
           )}
-        </h3>
+        </h2>
         <p>
           {t(
             `game.${example ? "messages" : "liveMessages"}.${view.phase}.body`,
