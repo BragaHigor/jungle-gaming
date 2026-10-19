@@ -9,6 +9,18 @@ export function SessionControls() {
   const { remote } = useInterface();
   return (
     <div className="game-session-controls">
+      <div className="flex flex-wrap items-center gap-3">
+        <p role="status">{t(`game.realtime.${remote.realtime.status}`)}</p>
+        {remote.realtime.status === "offline" && (
+          <Button
+            variant="outline"
+            disabled={remote.busy}
+            onClick={remote.realtime.reconnect}
+          >
+            {t("game.realtime.retry")}
+          </Button>
+        )}
+      </div>
       {remote.error && (
         <p role="status">{t(`game.api.errors.${remote.error}`)}</p>
       )}

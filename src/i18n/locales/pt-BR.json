@@ -344,6 +344,14 @@
       },
       "checking": "Verificando…"
     },
+    "realtime": {
+      "idle": "Inicie uma sessão para receber atualizações ao vivo.",
+      "connecting": "Conectando atualizações ao vivo…",
+      "connected": "Atualizações ao vivo conectadas.",
+      "reconnecting": "Reconectando atualizações ao vivo… O jogo continua disponível.",
+      "offline": "Atualizações ao vivo indisponíveis. Você pode continuar jogando e atualizar a sessão.",
+      "retry": "Reconectar"
+    },
     "liveMessages": {
       "unavailable": {
         "title": "Inicie a demonstração",

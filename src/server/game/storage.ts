@@ -1,5 +1,9 @@
 import type { Pool, PoolClient } from "pg";
 import type { Round } from "@/features/game/contracts";
+import {
+  notificationChannel,
+  type GameNotification,
+} from "../realtime/notifications";
 import { GameError } from "./errors";
 import type {
   GameRepository,
@@ -29,6 +33,16 @@ function transactionFor(
   session: SessionRecord,
   now: Date,
 ): SessionTransaction {
+  async function notify(event: GameNotification["event"]) {
+    // PostgreSQL delivers this only after COMMIT, including through the pooler.
+    await client.query("SELECT pg_notify($1, $2)", [
+      notificationChannel,
+      JSON.stringify({
+        sessionHash: session.tokenHash,
+        event,
+      } satisfies GameNotification),
+    ]);
+  }
   return {
     session,
     now,
@@ -69,6 +83,10 @@ function transactionFor(
           round.createdAt,
         ],
       );
+      await notify({
+        type: "round",
+        data: { ...round, symbols: [...round.symbols] },
+      });
     },
     async saveReset(reset) {
       await client.query(
@@ -81,6 +99,14 @@ function transactionFor(
           JSON.stringify(reset.snapshot),
         ],
       );
+      await notify({
+        type: "reset",
+        data: {
+          id: reset.requestId,
+          generation: reset.snapshot.generation,
+          version: reset.snapshot.version,
+        },
+      });
     },
     async saveSession() {
       await client.query(

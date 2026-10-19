@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "dev:realtime": "tsx --env-file-if-exists=.env.local api/realtime.ts",
+    "dev:realtime": "tsx --env-file-if-exists=.env --env-file-if-exists=.env.local api/realtime.ts",
     "build": "next build",
     "start": "next start",
     "typecheck": "next typegen && tsc --noEmit",

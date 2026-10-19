@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import type { Bet, GameSession, Round } from "../contracts";
+import { useGameRealtime } from "./use-game-realtime";
 import {
   createSession,
   GameRequestError,
@@ -49,10 +50,12 @@ export function useGameSession(
     stopped: number;
   } | null>(null);
   // Presentation only: the query cache still receives confirmed data immediately.
-  const [historyBeforeSpin, setHistoryBeforeSpin] =
+  const [sessionBeforeSpin, setSessionBeforeSpin] =
     useState<GameSession | null>(null);
   const locked = useRef(false);
   const mounted = useRef(false);
+  const syncQueued = useRef(false);
+  const [, requestSyncRender] = useState(0);
   const query = useQuery<GameSession>({
     queryKey: sessionQueryKey,
     queryFn: ({ signal }) => getSession(signal),
@@ -140,7 +143,7 @@ export function useGameSession(
       setTimeout(
         () => {
           setAnimation(null);
-          setHistoryBeforeSpin(null);
+          setSessionBeforeSpin(null);
           playSound(target.prize > 0);
         },
         reducedMotion ? 0 : 1500,
@@ -166,6 +169,7 @@ export function useGameSession(
   async function verify() {
     if (locked.current || animation) return;
     locked.current = true;
+    syncQueued.current = false;
     setPhase("checking");
     setError(null);
     try {
@@ -229,7 +233,7 @@ export function useGameSession(
     pendingRef.current = command;
     setPending(command);
     if (command.kind === "round")
-      setHistoryBeforeSpin(
+      setSessionBeforeSpin(
         client.getQueryData<GameSession>(sessionQueryKey) ?? null,
       );
     setPhase(command.kind === "round" ? "sending" : "checking");
@@ -284,9 +288,13 @@ export function useGameSession(
           /* Keep the last confirmed snapshot. */
         }
         setPhase("idle");
-      } else setPhase("uncertain");
+      } else {
+        setPhase("uncertain");
+        // One read-only recovery attempt after an uncertain POST, never another bet.
+        syncQueued.current = true;
+      }
     } finally {
-      if (mounted.current && !animationStarted) setHistoryBeforeSpin(null);
+      if (mounted.current && !animationStarted) setSessionBeforeSpin(null);
       locked.current = false;
     }
   }
@@ -296,11 +304,33 @@ export function useGameSession(
     : (error ??
       (query.error
         ? gameError(query.error).code
-        : session?.version === 500
+        : (sessionBeforeSpin ?? session)?.version === 500
           ? "SESSION_LIMIT"
           : null));
   const authenticationRequired =
     code === "SESSION_REQUIRED" || code === "SESSION_EXPIRED";
+  const realtime = useGameRealtime(
+    !!session && !authenticationRequired,
+    (version) => {
+      const current = client.getQueryData<GameSession>(sessionQueryKey);
+      if (version !== undefined && current && version <= current.version)
+        return;
+      syncQueued.current = true;
+      requestSyncRender((previous) => previous + 1);
+    },
+  );
+  // Coalesce events while a mutation/animation owns the presentation. Never let a
+  // background GET race with a POST or reveal history before the reels finish.
+  useEffect(() => {
+    if (
+      syncQueued.current &&
+      !locked.current &&
+      !animation &&
+      phase !== "sending" &&
+      phase !== "checking"
+    )
+      void verify();
+  });
   const busy =
     phase === "sending" ||
     phase === "checking" ||
@@ -310,12 +340,13 @@ export function useGameSession(
     !!session && !busy && !pending && !authenticationRequired && !code;
   return {
     session,
+    realtime,
     pending,
     phase,
     animation,
-    historyBeforeSpin,
-    error: code,
-    authenticationRequired,
+    sessionBeforeSpin,
+    error: animation ? null : code,
+    authenticationRequired: !animation && authenticationRequired,
     loading: query.isPending && !query.error,
     busy,
     canPlay: canPlay && session.balance >= bet,

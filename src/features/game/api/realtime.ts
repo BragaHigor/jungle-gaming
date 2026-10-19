@@ -23,6 +23,9 @@ export function createRealtimeClient(): Socket<
     transports: ["websocket"],
     autoConnect: false,
     reconnectionAttempts: 3,
+    reconnectionDelay: 1_000,
+    reconnectionDelayMax: 5_000,
+    withCredentials: true,
     timeout: 8_000,
   });
 }

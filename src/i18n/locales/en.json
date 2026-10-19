@@ -344,6 +344,14 @@
       },
       "checking": "Checking…"
     },
+    "realtime": {
+      "idle": "Start a session to receive live updates.",
+      "connecting": "Connecting live updates…",
+      "connected": "Live updates connected.",
+      "reconnecting": "Reconnecting live updates… You can keep playing.",
+      "offline": "Live updates unavailable. You can keep playing and refresh your session.",
+      "retry": "Reconnect"
+    },
     "liveMessages": {
       "unavailable": {
         "title": "Start the demo",
