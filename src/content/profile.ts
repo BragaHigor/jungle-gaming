@@ -1,0 +1,52 @@
+export const profile = {
+  name: "Higor Braga",
+  initials: "HB",
+  github: "https://github.com/BragaHigor",
+  linkedin: "https://www.linkedin.com/in/higor-braga-99010ba1/",
+  city: "Franca",
+  region: "SP",
+  company: "LuizaLabs",
+  team: "Jovem Nerd",
+  school: "FATEC Franca",
+  previousCompany: "Compass UOL",
+  previousProduct: "Vivo",
+  postgraduateSchool: "GRAN",
+  technologies: [
+    { name: "React", logo: "react" },
+    { name: "Next.js", logo: "nextjs" },
+    { name: "TypeScript", logo: "typescript" },
+    { name: "Tailwind CSS", logo: "tailwindcss" },
+    { name: "Git", logo: "git" },
+    { name: "Claude", logo: "claude" },
+    { name: "Codex", logo: "codex" },
+    { name: "Copilot", logo: "copilot" },
+    { name: "AWS", logo: "aws" },
+    { name: "Docker", logo: "docker" },
+    { name: "CI/CD", icon: "reset" },
+    { name: "automatedTesting", icon: "shield" },
+  ],
+} as const;
+
+export const selectedProjects = [
+  {
+    id: "threadflow",
+    name: "ThreadFlow",
+    href: "https://www.threadflow.com.br/",
+    repository: "https://github.com/BragaHigor/site-threadflow",
+    technologies: "Next.js · TypeScript · Tailwind CSS",
+  },
+  {
+    id: "maestri",
+    name: "Maestri Advocacia",
+    href: "https://www.maestriadv.com.br/",
+    repository: "https://github.com/BragaHigor/maestri-advocacia",
+    technologies: "Next.js · TypeScript · Tailwind CSS",
+  },
+  {
+    id: "border",
+    name: "Encinas & Braga Border Collie",
+    href: "https://border-collie-puppies.vercel.app/",
+    repository: "https://github.com/BragaHigor/border-collie-puppies",
+    technologies: "Next.js · TypeScript · Tailwind CSS",
+  },
+] as const;

@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { createRealtimeServer } from "../src/server/realtime/create-server";
+import { createRealtimeDatabase } from "../src/server/realtime/database";
 
 const origins = (
   process.env.REALTIME_ALLOWED_ORIGINS ||
@@ -11,7 +12,13 @@ const origins = (
   .filter((origin) => origin.trim())
   .map((origin) => new URL(origin.trim()).origin);
 
-const { server } = createRealtimeServer(origins);
+if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL_REQUIRED");
+const database = createRealtimeDatabase(
+  process.env.DATABASE_URL,
+  process.env.REALTIME_DATABASE_URL || undefined,
+);
+const { server } = createRealtimeServer(origins, database);
+server.once("close", () => void database.close());
 
 if (
   process.argv[1] &&

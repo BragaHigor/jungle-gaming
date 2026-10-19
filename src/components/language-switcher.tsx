@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 import { isLocale, localeCookieName, locales } from "@/i18n/config";
+import { Icon } from "@/components/ui/icon";
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const [isPending, startTransition] = useTransition();
@@ -20,20 +21,38 @@ export function LanguageSwitcher() {
   }
 
   return (
-    <label className="flex items-center gap-3 text-sm text-stone-300">
-      <span>{t("language.label")}</span>
-      <select
-        value={i18n.language}
-        onChange={(event) => changeLocale(event.target.value)}
-        disabled={isPending}
-        className="min-h-11 rounded border border-stone-700 bg-stone-950 px-3 text-stone-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-stone-100 disabled:opacity-60"
-      >
-        {locales.map((locale) => (
-          <option key={locale} value={locale}>
-            {t(`language.options.${locale}`)}
-          </option>
-        ))}
-      </select>
+    <label
+      className={
+        compact
+          ? "language-switcher language-switcher-compact"
+          : "language-switcher"
+      }
+    >
+      <span className={compact ? "sr-only" : undefined}>
+        {t("language.label")}
+      </span>
+      <span className="language-select">
+        <select
+          value={i18n.language}
+          onChange={(event) => changeLocale(event.target.value)}
+          disabled={isPending}
+          className="min-h-11 w-full appearance-none rounded-md border border-input bg-background py-2 pr-10 pl-3 text-foreground disabled:opacity-60"
+        >
+          {locales.map((locale) => (
+            <option key={locale} value={locale}>
+              {compact
+                ? locale === "pt-BR"
+                  ? "PT"
+                  : "EN"
+                : t(`language.options.${locale}`)}
+            </option>
+          ))}
+        </select>
+        <Icon
+          name="chevronDown"
+          className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2"
+        />
+      </span>
     </label>
   );
 }

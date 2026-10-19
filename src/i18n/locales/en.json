@@ -3,12 +3,179 @@
     "title": "Higor Braga | Lucky Canopy",
     "description": "Higor Braga’s interactive portfolio and Lucky Canopy game demo."
   },
-  "home": {
-    "eyebrow": "Higor Braga · Interactive portfolio",
-    "title": "Lucky Canopy",
-    "description": "A personal introduction and a small playable experience. In development.",
-    "disclaimer": "Independent project. Virtual credits with no monetary value.",
-    "openWorkspace": "Open demo"
+  "navigation": {
+    "label": "Main navigation",
+    "about": "About",
+    "play": "Play",
+    "project": "The project",
+    "home": "{{name}} — home",
+    "github": "Higor Braga’s GitHub profile",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "skip": "Skip to content"
+  },
+  "social": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
+  },
+  "theme": {
+    "light": "Switch to light mode",
+    "dark": "Switch to dark mode"
+  },
+  "footer": {
+    "independent": "Independent portfolio project.",
+    "affiliation": "Not officially affiliated with Jungle Gaming.",
+    "credits": "Virtual credits with no monetary value."
+  },
+  "project": {
+    "sectionLabel": "{{number}} / {{label}}",
+    "metadata": {
+      "title": "The project | Lucky Canopy",
+      "description": "Explore a round's journey, the technologies and the architecture decisions behind Lucky Canopy."
+    },
+    "eyebrow": "Lucky Canopy / inside the project",
+    "title": "From the first click to the result.",
+    "intro": "A small demo to explore the whole application: interface, API, persistence and failure recovery. Every decision has a place in the code.",
+    "demo": "Explore the demo",
+    "code": "View on GitHub",
+    "back": "Back to introduction",
+    "index": "On this page",
+    "sections": {
+      "purpose": "Purpose and scope",
+      "stack": "Technologies",
+      "flow": "Round flow",
+      "architecture": "Architecture",
+      "decisions": "Decisions and failures",
+      "quality": "Quality and delivery",
+      "limits": "Limits and next steps",
+      "repository": "Repository"
+    },
+    "purpose": {
+      "title": "A project you can walk through.",
+      "body": "Lucky Canopy brings together a personal portfolio and a three-reel minigame. It demonstrates a responsive interface and follows the data to the server, with responsibilities that are easy to find and explain.",
+      "facts": {
+        "reels": {
+          "label": "Composition",
+          "value": "3 reels · 1 line"
+        },
+        "credits": {
+          "label": "Initial virtual balance",
+          "value": "1,000 credits"
+        },
+        "history": {
+          "label": "Visible history",
+          "value": "5 rounds"
+        }
+      },
+      "scope": "Bets of 10, 25 or 50 virtual credits. No registration, payments or real money. Four symbols and one winning line keep the scope small."
+    },
+    "stack": {
+      "title": "Every technology has a role.",
+      "caption": "Technologies used and their responsibilities",
+      "technology": "Technology",
+      "role": "Its role",
+      "roles": {
+        "pages": "Pages, layout and endpoints. TypeScript describes contracts between the parts.",
+        "routing": "Machine, Rules and Examples panels inside /play, using memory history.",
+        "data": "Query caches the confirmed session; Axios handles HTTP requests.",
+        "events": "Signals session changes. On connection or reconnection, the client queries the API.",
+        "database": "Transactions, session locking and persistence. LISTEN/NOTIFY communicates changes between processes.",
+        "interface": "Visual tokens, responsive layouts and local controls composed with Radix.",
+        "validation": "Runtime validation of API inputs, responses and events.",
+        "language": "Copy, accessible messages and metadata in Brazilian Portuguese and English.",
+        "delivery": "Automated tests, validation before committing and a continuous integration workflow."
+      }
+    },
+    "flow": {
+      "title": "One round, five steps.",
+      "steps": {
+        "intent": {
+          "title": "Record the intention",
+          "body": "A click creates an identifier and stores the pending request in this tab before sending it. A new round stays blocked."
+        },
+        "request": {
+          "title": "Send through the API",
+          "body": "The mutation uses Axios. The endpoint identifies the session through the HTTP-only cookie and validates the input with Zod."
+        },
+        "transaction": {
+          "title": "Confirm in the database",
+          "body": "The service checks the balance and identifier. Drawing, calculation and persistence happen in one transaction, with the session locked."
+        },
+        "confirmation": {
+          "title": "Receive confirmation",
+          "body": "The response updates the cache. After COMMIT, the database also notifies Socket.IO; the event can trigger an HTTP query."
+        },
+        "presentation": {
+          "title": "Reveal the round",
+          "body": "The reels present the received symbols. The previous balance, payout and history remain visible until the animation finishes, then update together."
+        }
+      },
+      "caption": "The server determines the result. The animation presents it. Events received during a spin wait until it finishes before synchronizing."
+    },
+    "architecture": {
+      "title": "Organization with concrete examples.",
+      "body": "One repository, organized by feature. Interface, transport, rules and storage have separate responsibilities. Open an example to find its implementation.",
+      "source": "Files on develop · open in a new tab",
+      "patterns": {
+        "composition": {
+          "title": "Component composition",
+          "body": "GameBoard combines reels, bet selection, messages and history. Each part receives data and actions, allowing presentation changes without moving game rules into the screen."
+        },
+        "service": {
+          "title": "Service and pure functions",
+          "body": "The service coordinates the round and its persistence. In rules.ts, calculation depends only on its arguments, making balance and payout tests deterministic."
+        },
+        "repository": {
+          "title": "A specific repository",
+          "body": "The contract describes the session and round operations the service needs. storage.ts implements those operations in PostgreSQL and contains transactions and SQL queries."
+        },
+        "dependencies": {
+          "title": "Explicit dependencies",
+          "body": "The service receives a repository, a drawing function and an identifier generator. The runtime supplies real implementations; tests supply controlled versions, without a dependency injection container."
+        }
+      }
+    },
+    "decisions": {
+      "title": "What happens outside the happy path?",
+      "items": {
+        "presentation": {
+          "title": "Confirmed data and when to display it",
+          "body": "The cache receives confirmation immediately. A visual snapshot of the previous session prevents the balance and history from appearing early. Reduced motion skips the animation wait; sound starts off."
+        },
+        "routing": {
+          "title": "Two routers with clear boundaries",
+          "body": "Next.js controls /, /play and /project. TanStack Router only handles the game's internal panels. Memory history preserves the workspace but does not offer direct links to individual panels."
+        },
+        "recovery": {
+          "title": "A timeout is not a cancellation",
+          "body": "A lost response is recovered through GET using the same identifier. A 404 can precede confirmation: the request stays pending and no new bet is sent automatically. Version and generation protect against old responses and resets in another tab."
+        }
+      }
+    },
+    "quality": {
+      "commands": {
+        "check": "npm run check",
+        "integration": "npm run test:integration"
+      },
+      "title": "Verify before integrating.",
+      "body": "Tests cover rules, HTTP contracts, recovery and presentation. Integration uses test PostgreSQL to verify concurrency, rollback, idempotency and events between instances.",
+      "check": "Lint, formatting, types, tests and build. Husky runs this command before normal commits.",
+      "integration": "Runs database tests with TEST_DATABASE_URL and isolated temporary schemas.",
+      "delivery": "The GitHub Actions workflow is in the repository. Working branches start from develop and return through a PR; main is the production branch. Automatic Vercel delivery will be configured in the deployment stage."
+    },
+    "limits": {
+      "title": "Limits that guide what comes next.",
+      "items": {
+        "events": "LISTEN/NOTIFY does not store missed events. Reconnection recovers state through HTTP; a silently lost update in another tab may require a manual session refresh.",
+        "scale": "Atomicity was tested between connections and processes. This does not measure traffic capacity. Each events instance keeps a direct database connection; additional layers should follow an observed need.",
+        "hosting": "Integration was validated locally with Neon. Socket.IO function discovery, routing and HTTPS/WSS on Vercel still need hosted validation. Final quality review and documentation are also part of the next deliveries."
+      }
+    },
+    "repository": {
+      "title": "Continue through the code.",
+      "body": "The examples above link to real files on the develop branch. Explore the service, components and tests to follow the decisions through the implementation.",
+      "credit": "An original project by Higor Braga, with occasional use of AI tools during development. Not officially affiliated with Jungle Gaming."
+    }
   },
   "language": {
     "label": "Language",
@@ -43,5 +210,431 @@
     "title": "Page not found",
     "description": "The address you requested is not available.",
     "backHome": "Back to home"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "Interactive portfolio · Front-End",
+      "titleStart": "Interfaces with intention.",
+      "titleAccent": "Interactions",
+      "titleEnd": "with personality.",
+      "description": "I'm a full stack developer focused on front-end. I work with React, Next.js and TypeScript to turn ideas into interfaces and digital experiences.",
+      "location": "{{city}} / {{region}} · Brazil",
+      "demo": "Explore the demo",
+      "project": "About the project"
+    },
+    "about": {
+      "eyebrow": "About",
+      "title": "The person behind the interface",
+      "description": "I like to understand an application beyond the screen: how data arrives, how states connect and how the interface responds to each interaction. My work brings together interface development, API integration, testing and technical documentation.",
+      "facts": {
+        "work": {
+          "title": "Development day to day",
+          "description": "I work at {{company}}, on digital products for {{team}}. Previously, I worked at {{previousCompany}} on B2C E-care applications for {{previousProduct}}."
+        },
+        "education": {
+          "title": "An education in software",
+          "description": "I hold a technology degree in Multiplatform Software Development from {{school}} and a postgraduate qualification in Full Stack Development and Cloud Computing from {{postgraduateSchool}}."
+        },
+        "learning": {
+          "title": "Continuous learning",
+          "description": "I am deepening my studies in systems architecture and development with an emphasis on design patterns, alongside automated testing and delivery processes."
+        }
+      },
+      "skills": "Skills",
+      "skillLabels": {
+        "restApis": "REST APIs",
+        "automatedTesting": "Testing",
+        "frontendArchitecture": "Architecture"
+      },
+      "projects": "Selected projects",
+      "projectDescriptions": {
+        "border": "A responsive puppy catalogue with filters, detail pages and an image gallery.",
+        "threadflow": "A product landing page with interactive sections and structured content for navigation and SEO.",
+        "maestri": "An institutional website with consumer law content, an informational deadline calculator and contact via WhatsApp or email."
+      },
+      "sourceCode": "Source",
+      "visitProject": " — visit website"
+    },
+    "game": {
+      "eyebrow": "The minigame",
+      "name": "Lucky Canopy",
+      "description": "A three-reel experience designed to explore interfaces and interactions. A small project to follow from the first click to the result.",
+      "features": {
+        "credits": {
+          "title": "Virtual credits",
+          "description": "The concept starts with 1,000 virtual credits, with no payments or monetary value."
+        },
+        "responsive": {
+          "title": "Responsive interface",
+          "description": "A composition that adapts from mobile to desktop while keeping the machine in focus."
+        },
+        "history": {
+          "title": "Round history",
+          "description": "View the last five confirmed rounds, including bet and result."
+        }
+      },
+      "disclaimer": "A demo with no real money.",
+      "progress": "The machines on this page are illustrative previews. In the demo, the server confirms rounds and balance."
+    },
+    "preview": {
+      "edition": "No. 01 · 3 reels",
+      "balance": "Balance",
+      "credits": "credits",
+      "combination": "Combination · +{{credits}}",
+      "badge": "Visual preview",
+      "spin": "Spin",
+      "result": "Match! +{{credits}} credits",
+      "heroCaption": "Fig. 1 — Illustrative preview: three reels, one line. Sample values.",
+      "detailCaption": "Fig. 2 — A visual study of a match. Controls and values are illustrative.",
+      "symbols": {
+        "leaf": "Leaf",
+        "flower": "Flower",
+        "cherry": "Fruit",
+        "gem": "Gem"
+      }
+    },
+    "decisions": {
+      "eyebrow": "Project decisions",
+      "title": "Three areas of work",
+      "link": "Explore the decisions",
+      "interface": {
+        "title": "Interface and responsiveness",
+        "description": "One column on mobile and more room for the composition on desktop. Theme, navigation and visible focus share the same components throughout the application."
+      },
+      "data": {
+        "title": "Application data and states",
+        "description": "Sessions, balances and rounds are confirmed by the server. Axios handles requests, and TanStack Query keeps remote state separate from animation."
+      },
+      "motion": {
+        "title": "Interactions and animation",
+        "description": "The reels display the confirmed result in sequence, with 260 ms between stops. Text and reduced motion keep the experience accessible."
+      },
+      "states": {
+        "ready": "Ready",
+        "checking": "Checking",
+        "result": "Result"
+      },
+      "reel": "Reel {{number}}",
+      "delay": "+{{delay}} ms"
+    }
+  },
+  "game": {
+    "description": "Three reels, four symbols and one winning line. Explore the interface and the demo rules.",
+    "disclaimer": "Virtual credits · no real money",
+    "machine": "Lucky Canopy machine",
+    "navigation": {
+      "examples": "Examples"
+    },
+    "symbols": {
+      "leaf": "Leaf",
+      "flower": "Flower",
+      "cherry": "Fruit",
+      "gem": "Gem"
+    },
+    "balance": {
+      "label": "Balance",
+      "credits": "credits",
+      "unknown": "—"
+    },
+    "bet": {
+      "label": "Bet per round"
+    },
+    "status": {
+      "example": "Local example",
+      "unavailable": "No session",
+      "offline": "Offline",
+      "failed": "No response",
+      "verifying": "Checking…",
+      "loading": "Loading…",
+      "http": "Confirmed balance"
+    },
+    "sound": {
+      "on": "Sound on",
+      "off": "Sound off",
+      "unavailable": "Audio could not be enabled in this browser. The interface remains available without sound."
+    },
+    "reel": {
+      "spinning": "Reel {{number}}: spinning",
+      "value": "Reel {{number}}: {{symbol}}",
+      "unknown": "Reel {{number}}: awaiting confirmation",
+      "placeholder": "?"
+    },
+    "actions": {
+      "spin": "Spin",
+      "spinning": "Spinning…",
+      "animateExample": "Animate example",
+      "recoverExample": "Check example",
+      "resetExample": "Reset example",
+      "confirmReset": "Reset",
+      "cancel": "Cancel",
+      "close": "Close"
+    },
+    "rules": {
+      "title": "Combinations",
+      "table": "Paytable",
+      "line": "On the line",
+      "prize": "Payout",
+      "withBet": "With {{bet}}",
+      "times": "×",
+      "matches": {
+        "gem": "3 gems",
+        "cherry": "3 fruits",
+        "flower": "3 flowers",
+        "leaf": "3 leaves"
+      },
+      "intro": "The game concept uses 1,000 virtual credits and bets of 10, 25 or 50. Three identical symbols on the centre line form a match. There are no payments, withdrawals or monetary value.",
+      "description": "Display values for the selected bet: {{bet}} credits.",
+      "note": "The payout is the total credited for the round; the bet is deducted once. No match means no prize. There is no claim about probabilities or RTP."
+    },
+    "history": {
+      "title": "Recent rounds",
+      "limit": "up to 5",
+      "empty": "Your rounds will appear here",
+      "number": "#{{number}}",
+      "bet": "Bet {{bet}}",
+      "prize": "+{{prize}}",
+      "noPrize": "No prize"
+    },
+    "reset": {
+      "title": "Reset this example?",
+      "description": "Only the visual example will return to 1,000 credits and an empty history. No server session or round will be changed."
+    },
+    "examples": {
+      "title": "Interface examples",
+      "description": "Local scenarios with fixed values, no bets, random draws or round connection. Animate replays a known preview; it does not calculate a new result. Changing the scenario interrupts the previous animation.",
+      "scenario": "Example state",
+      "reduceMotion": "Reduce motion in the example",
+      "scenarios": {
+        "ready": "Ready / empty history",
+        "loading": "Loading",
+        "spinning": "Spinning reels",
+        "win": "Match / populated history",
+        "loss": "No match",
+        "insufficient": "Insufficient balance",
+        "offline": "Offline",
+        "verifying": "Checking result",
+        "failed": "Confirmation failed"
+      }
+    },
+    "messages": {
+      "unavailable": {
+        "title": "No session in this example",
+        "body": "This frame represents the interface before a session exists. Data remains unknown; no round will be sent."
+      },
+      "loading": {
+        "title": "Loading demo…",
+        "body": "Waiting for the data needed to display the session. Starting another round remains blocked."
+      },
+      "ready": {
+        "title": "Ready to explore",
+        "body": "Fixed example bet: {{bet}} credits. The animation shows a known scenario without sending a bet."
+      },
+      "spinning": {
+        "title": "Spinning…",
+        "body": "An example animation is in progress. Wait for all three reels to stop; the values have not yet been replaced by the final snapshot."
+      },
+      "stopping": {
+        "title": "Presenting the result…",
+        "body": "The reels stop in sequence. The complete snapshot will appear when the animation finishes."
+      },
+      "win": {
+        "title": "Match! +{{prize}} credits",
+        "body": "Three flowers on the line in this example. The displayed prize is the total credited for a bet of {{bet}} credits."
+      },
+      "loss": {
+        "title": "No match this round",
+        "body": "This snapshot illustrates a round with no prize and a bet of {{bet}} credits. No new bet was placed."
+      },
+      "insufficient": {
+        "title": "Insufficient balance",
+        "body": "The example has {{balance}} credits and a bet of {{bet}}. In an available session, choose a smaller bet or reset when no round is pending."
+      },
+      "offline": {
+        "title": "Offline",
+        "body": "This scenario represents an unavailable connection. A new round should wait until the session is restored."
+      },
+      "verifying": {
+        "title": "Checking result…",
+        "body": "The result is not confirmed yet. Do not start another round while the check is pending."
+      },
+      "failed": {
+        "title": "The result could not be confirmed",
+        "body": "The displayed value is the last reference, not a guarantee of an up-to-date balance. Check the same result before continuing, without resending the bet."
+      }
+    },
+    "api": {
+      "start": "Start demo",
+      "refresh": "Refresh session",
+      "verify": "Check result",
+      "retry": "Try to complete",
+      "reset": "Reset session",
+      "resetTitle": "Reset the demo?",
+      "resetDescription": "Your balance will return to 1,000 fictional credits and the displayed history will be cleared. No real money is involved. The reset is only confirmed after the server responds.",
+      "pending": "The result is still unconfirmed. Check it or try to complete the same request. No new bet will be created.",
+      "errors": {
+        "INVALID_INPUT": "The request was rejected. Refresh the session before continuing.",
+        "SESSION_REQUIRED": "Start the demo to receive your fictional credits.",
+        "SESSION_EXPIRED": "Your session has expired. Start a new demo to continue.",
+        "SESSION_CHANGED": "The session changed in another tab. Refresh the data before continuing.",
+        "SESSION_LIMIT": "This session has reached its operation limit. Wait for it to expire before starting another.",
+        "INSUFFICIENT_BALANCE": "There are not enough credits for this bet. Refresh the session and choose a lower bet or reset.",
+        "IDEMPOTENCY_CONFLICT": "This request could not be reconciled. Refresh the session before continuing.",
+        "ROUND_NOT_FOUND": "The round has not been found yet. This does not confirm the request was cancelled.",
+        "FORBIDDEN_ORIGIN": "The request origin was rejected. Reopen the demo using the site address.",
+        "UNSUPPORTED_MEDIA_TYPE": "The request format was rejected. Refresh the page.",
+        "PAYLOAD_TOO_LARGE": "The request exceeded the allowed size. Refresh the page.",
+        "GAME_UNAVAILABLE": "The service is unavailable. Wait and check again.",
+        "NETWORK_ERROR": "The connection failed or timed out. The displayed balance is the last confirmation received.",
+        "INVALID_RESPONSE": "The response could not be validated. Check the session before continuing.",
+        "STORAGE_UNAVAILABLE": "Recovery data could not be saved in this tab. Allow temporary storage to play safely."
+      },
+      "checking": "Checking…"
+    },
+    "realtime": {
+      "idle": "Start a session to receive live updates.",
+      "connecting": "Connecting live updates…",
+      "connected": "Live updates connected.",
+      "reconnecting": "Reconnecting live updates… You can keep playing.",
+      "offline": "Live updates unavailable. You can keep playing and refresh your session.",
+      "retry": "Reconnect"
+    },
+    "liveMessages": {
+      "unavailable": {
+        "title": "Start the demo",
+        "body": "A session uses fictional credits and stores rounds on the server. No payment is required."
+      },
+      "loading": {
+        "title": "Loading session…",
+        "body": "Fetching the last confirmed balance and history."
+      },
+      "ready": {
+        "title": "Ready to play",
+        "body": "Choose a bet and spin. The server confirms the symbols, prize and balance."
+      },
+      "spinning": {
+        "title": "Spinning…",
+        "body": "Waiting for round confirmation. A new bet remains blocked."
+      },
+      "stopping": {
+        "title": "Presenting the result…",
+        "body": "The server confirmed the round. The reels only display the received symbols."
+      },
+      "win": {
+        "title": "Match! +{{prize}} credits",
+        "body": "The last round’s prize is already included in the confirmed balance."
+      },
+      "loss": {
+        "title": "No match this round",
+        "body": "The last round was confirmed without a prize. The balance already includes the bet deduction."
+      },
+      "insufficient": {
+        "title": "Not enough credits",
+        "body": "The last confirmed balance is {{balance}} credits for a bet of {{bet}}. Choose a lower bet or reset the session."
+      },
+      "offline": {
+        "title": "No connection",
+        "body": "Wait for the connection and check the session before continuing."
+      },
+      "verifying": {
+        "title": "Checking session…",
+        "body": "Fetching confirmed data. Do not start another round while verification is pending."
+      },
+      "failed": {
+        "title": "Could not confirm",
+        "body": "Check the message below. A connection failure does not guarantee that a round was cancelled."
+      }
+    }
+  },
+  "catalog": {
+    "eyebrow": "Lucky Canopy / interface references",
+    "links": {
+      "label": "Project references",
+      "system": "Visual system",
+      "showcase": "State gallery",
+      "project": "Explore the project"
+    },
+    "system": {
+      "resetDescription": "Only this example's selection and paytable will return to 10 credits. The fixed preview and any game session remain unchanged.",
+      "title": "A shared visual language.",
+      "metadataTitle": "Visual system | Lucky Canopy",
+      "intro": "Colors, typography and components used in the project. A small reference for reviewing the interface and trying controls without starting a game session.",
+      "palette": "Colors and meaning",
+      "paletteNote": "The samples use the application's own tokens and follow the theme selected in the header. Color and text work together to identify each state.",
+      "tokens": {
+        "background": "Background",
+        "surface": "Surface",
+        "text": "Primary text",
+        "accent": "Accent",
+        "success": "Success",
+        "error": "Error"
+      },
+      "gradient": "The sunset gradient highlights primary actions and the game's visual identity.",
+      "typography": "Three fonts, defined roles.",
+      "samples": {
+        "body": "Interfaces with intention.",
+        "display": "Explore",
+        "script": "Lucky Canopy"
+      },
+      "fontRoles": {
+        "body": "Headings, paragraphs and controls.",
+        "display": "Prominent actions and game headings.",
+        "script": "Signature and minigame name."
+      },
+      "controls": "Controls in use",
+      "controlsNote": "These controls only change the examples below. No selection sends a bet, queries a balance or connects to the game.",
+      "buttons": {
+        "default": "Primary",
+        "outline": "Outline",
+        "ghost": "Ghost",
+        "disabled": "Disabled",
+        "loading": "Loading…"
+      },
+      "feedback": {
+        "initial": "Try the buttons or navigate with Tab.",
+        "default": "Primary button activated in this example.",
+        "outline": "Outline button activated in this example.",
+        "ghost": "Ghost button activated in this example.",
+        "reset": "Example restored to the initial selection."
+      },
+      "betNote": "Selection only updates this illustrative paytable. Reset restores the selection to 10 credits.",
+      "symbols": "Symbols with names",
+      "composition": "Components together",
+      "compositionNote": "A fixed winning example brings together reels, balance, message and history. Values are independent of your session; animations are disabled."
+    },
+    "showcase": {
+      "title": "Every state, without relying on a connection.",
+      "metadataTitle": "State gallery | Lucky Canopy",
+      "intro": "Explore deterministic loading, result and failure examples. They all use local fixtures and the game's visual components, without accessing or changing a real session."
+    },
+    "gallery": {
+      "scenario": "Example state",
+      "width": "Preview width",
+      "animate": "Enable animations in this preview",
+      "sizes": {
+        "compact": "Up to 320 px",
+        "medium": "Up to 768 px",
+        "fluid": "Available space"
+      },
+      "widthNote": "Width is limited to the space available on this page; this is not device emulation. Animations start off and respect the system's reduced motion preference.",
+      "caption": "Reference frame: {{scenario}}"
+    },
+    "preview": {
+      "machine": "Illustrative machine, read only",
+      "fixed": "Example data",
+      "readonly": "Read-only preview. It does not send rounds, query a balance or change your session."
+    },
+    "scenarios": {
+      "unavailable": "No session",
+      "ready": "Ready / empty history",
+      "loading": "Loading",
+      "spinning": "Spinning reels",
+      "stopping": "Sequential stopping",
+      "win": "Match / populated history",
+      "loss": "No match",
+      "insufficient": "Insufficient balance",
+      "offline": "Offline",
+      "verifying": "Verifying result",
+      "failed": "Confirmation failure"
+    }
   }
 }

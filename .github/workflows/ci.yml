@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: "true"
+  HUSKY: "0"
+  NEXT_TELEMETRY_DISABLED: "1"
+
+jobs:
+  validation:
+    name: Validacao
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: canopy_test
+          POSTGRES_PASSWORD: canopy_test
+          POSTGRES_DB: canopy_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U canopy_test -d canopy_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Obter o codigo
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Configurar Node.js e cache npm
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Configurar a versao do npm
+        run: npm install --global npm@11.6.0
+
+      - name: Instalar dependencias pelo lockfile
+        run: npm ci
+
+      - name: Validar codigo testes e build
+        run: npm run check
+
+      - name: Validar transacoes em PostgreSQL isolado
+        run: npm run test:integration
+        env:
+          TEST_DATABASE_URL: postgresql://canopy_test:canopy_test@localhost:5432/canopy_test

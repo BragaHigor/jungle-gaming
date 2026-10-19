@@ -14,7 +14,7 @@ export function ApiStatus() {
   });
 
   return (
-    <section className="flex flex-wrap items-center justify-between gap-4 rounded-md border border-stone-800 p-4">
+    <section className="flex flex-wrap items-center justify-between gap-4 rounded-md border border-border p-4">
       <p role="status">
         {query.isPending
           ? t("workspace.api.loading")

@@ -3,12 +3,179 @@
     "title": "Higor Braga | Lucky Canopy",
     "description": "Portfólio interativo de Higor Braga e demonstração do jogo Lucky Canopy."
   },
-  "home": {
-    "eyebrow": "Higor Braga · Portfólio interativo",
-    "title": "Lucky Canopy",
-    "description": "Uma apresentação pessoal e uma pequena experiência jogável. Em desenvolvimento.",
-    "disclaimer": "Projeto independente. Créditos fictícios, sem valor monetário.",
-    "openWorkspace": "Abrir demonstração"
+  "navigation": {
+    "label": "Navegação principal",
+    "about": "Sobre",
+    "play": "Jogar",
+    "project": "O projeto",
+    "home": "{{name}} — início",
+    "github": "Perfil de Higor Braga no GitHub",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "skip": "Pular para o conteúdo"
+  },
+  "social": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
+  },
+  "theme": {
+    "light": "Ativar modo claro",
+    "dark": "Ativar modo escuro"
+  },
+  "footer": {
+    "independent": "Projeto independente de portfólio.",
+    "affiliation": "Sem vínculo oficial com a Jungle Gaming.",
+    "credits": "Créditos fictícios, sem valor monetário."
+  },
+  "project": {
+    "sectionLabel": "{{number}} / {{label}}",
+    "metadata": {
+      "title": "O projeto | Lucky Canopy",
+      "description": "Conheça o fluxo de uma rodada, as tecnologias e as decisões de arquitetura do Lucky Canopy."
+    },
+    "eyebrow": "Lucky Canopy / por dentro do projeto",
+    "title": "Do primeiro clique ao resultado.",
+    "intro": "Uma demonstração pequena para explorar a aplicação inteira: interface, API, persistência e recuperação de falhas. Aqui, cada decisão tem um lugar no código.",
+    "demo": "Explorar demonstração",
+    "code": "Ver no GitHub",
+    "back": "Voltar à apresentação",
+    "index": "Nesta página",
+    "sections": {
+      "purpose": "Objetivo e escopo",
+      "stack": "Tecnologias",
+      "flow": "Fluxo da rodada",
+      "architecture": "Arquitetura",
+      "decisions": "Decisões e falhas",
+      "quality": "Qualidade e entrega",
+      "limits": "Limites e próximos passos",
+      "repository": "Repositório"
+    },
+    "purpose": {
+      "title": "Um projeto que cabe numa conversa.",
+      "body": "O Lucky Canopy reúne um portfólio pessoal e um minigame de três rolos. O objetivo é demonstrar uma interface responsiva e acompanhar os dados até o servidor, com responsabilidades que sejam fáceis de localizar e explicar.",
+      "facts": {
+        "reels": {
+          "label": "Composição",
+          "value": "3 rolos · 1 linha"
+        },
+        "credits": {
+          "label": "Saldo inicial fictício",
+          "value": "1.000 créditos"
+        },
+        "history": {
+          "label": "Histórico visível",
+          "value": "5 rodadas"
+        }
+      },
+      "scope": "Apostas de 10, 25 ou 50 créditos virtuais. Sem cadastro, pagamentos ou dinheiro real. Quatro símbolos e uma única linha de combinação mantêm o escopo enxuto."
+    },
+    "stack": {
+      "title": "Cada tecnologia tem um papel.",
+      "caption": "Tecnologias utilizadas e suas responsabilidades",
+      "technology": "Tecnologia",
+      "role": "Onde entra",
+      "roles": {
+        "pages": "Páginas, layout e endpoints. TypeScript descreve os contratos entre as partes.",
+        "routing": "Painéis Máquina, Regras e Exemplos dentro de /play, com histórico em memória.",
+        "data": "Query mantém a sessão confirmada em cache; Axios transporta as requisições HTTP.",
+        "events": "Avisa sobre mudanças na sessão. Ao conectar ou reconectar, o cliente consulta a API.",
+        "database": "Transações, bloqueio da sessão e persistência. LISTEN/NOTIFY comunica mudanças entre processos.",
+        "interface": "Tokens visuais, responsividade e controles locais compostos com Radix.",
+        "validation": "Validação em tempo de execução das entradas da API, respostas e eventos.",
+        "language": "Textos, mensagens acessíveis e metadados em PT-BR e EN.",
+        "delivery": "Testes automatizados, validação antes do commit e workflow de integração contínua."
+      }
+    },
+    "flow": {
+      "title": "Uma rodada, cinco etapas.",
+      "steps": {
+        "intent": {
+          "title": "Registrar a intenção",
+          "body": "O clique cria um identificador e guarda a solicitação pendente nesta aba antes de enviar. Uma nova rodada fica bloqueada."
+        },
+        "request": {
+          "title": "Enviar pela API",
+          "body": "A mutação usa Axios. O endpoint identifica a sessão pelo cookie HTTP-only e valida a entrada com Zod."
+        },
+        "transaction": {
+          "title": "Confirmar no banco",
+          "body": "O serviço confere saldo e identificador. Sorteio, cálculo e gravação ocorrem na mesma transação, com bloqueio da sessão."
+        },
+        "confirmation": {
+          "title": "Receber a confirmação",
+          "body": "A resposta atualiza o cache. Após COMMIT, o banco também avisa o Socket.IO; o evento pode provocar uma consulta HTTP."
+        },
+        "presentation": {
+          "title": "Revelar a rodada",
+          "body": "Os rolos apresentam os símbolos recebidos. Saldo, prêmio e histórico anteriores ficam visíveis até a animação terminar; então são revelados juntos."
+        }
+      },
+      "caption": "O servidor define o resultado. A animação só o apresenta. Se um evento chegar durante o giro, a sincronização aguarda sua conclusão."
+    },
+    "architecture": {
+      "title": "Organização com exemplos concretos.",
+      "body": "Um repositório, organizado por funcionalidade. Interface, transporte, regras e armazenamento têm responsabilidades separadas. Abra cada exemplo para localizar sua implementação.",
+      "source": "Arquivos em develop · abrem em outra aba",
+      "patterns": {
+        "composition": {
+          "title": "Composição de componentes",
+          "body": "GameBoard combina rolos, seleção de aposta, mensagem e histórico. Cada parte recebe dados e ações, permitindo ajustar a apresentação sem mover as regras do jogo para a tela."
+        },
+        "service": {
+          "title": "Serviço e funções puras",
+          "body": "O serviço coordena a rodada e sua persistência. Em rules.ts, o cálculo depende só dos argumentos: isso permite testar saldo e prêmio com resultados determinísticos."
+        },
+        "repository": {
+          "title": "Repository específico",
+          "body": "O contrato descreve as operações de sessão e rodada que o serviço precisa. storage.ts implementa essas operações em PostgreSQL e concentra transações e consultas SQL."
+        },
+        "dependencies": {
+          "title": "Dependências explícitas",
+          "body": "O serviço recebe repository, sorteio e gerador de identificadores. O runtime fornece as implementações reais; os testes fornecem versões controladas, sem contêiner de injeção."
+        }
+      }
+    },
+    "decisions": {
+      "title": "O que acontece fora do caminho ideal?",
+      "items": {
+        "presentation": {
+          "title": "Dado confirmado e momento de exibir",
+          "body": "O cache recebe a confirmação imediatamente. Uma cópia visual da sessão anterior evita antecipar saldo e histórico. Movimento reduzido dispensa a espera da animação; som começa desligado."
+        },
+        "routing": {
+          "title": "Dois roteadores, fronteiras claras",
+          "body": "Next.js controla /, /play e /project. TanStack Router cuida apenas dos painéis internos do jogo. O histórico em memória preserva o workspace, mas não oferece links diretos para cada painel."
+        },
+        "recovery": {
+          "title": "Timeout não significa cancelamento",
+          "body": "Uma resposta perdida é recuperada por GET com o mesmo identificador. Um 404 ainda pode anteceder a confirmação: a pendência permanece e nenhuma aposta nova é enviada automaticamente. Versão e geração protegem contra respostas antigas e reinícios em outra aba."
+        }
+      }
+    },
+    "quality": {
+      "commands": {
+        "check": "npm run check",
+        "integration": "npm run test:integration"
+      },
+      "title": "Verificar antes de integrar.",
+      "body": "Testes cobrem regras, contratos HTTP, recuperação e apresentação. A integração usa PostgreSQL de testes para verificar concorrência, rollback, idempotência e eventos entre instâncias.",
+      "check": "Lint, formatação, tipos, testes e build. O Husky executa esse comando antes de commits normais.",
+      "integration": "Executa os testes de banco com TEST_DATABASE_URL e schemas temporários isolados.",
+      "delivery": "O workflow do GitHub Actions está no repositório. Branches de trabalho partem de develop e voltam por PR; main é o destino de produção. A publicação automática na Vercel será configurada na etapa de deploy."
+    },
+    "limits": {
+      "title": "Limites que orientam a evolução.",
+      "items": {
+        "events": "LISTEN/NOTIFY não guarda eventos perdidos. A reconexão recupera o estado por HTTP; uma perda silenciosa de aviso em outra aba pode exigir atualizar a sessão manualmente.",
+        "scale": "A atomicidade foi testada entre conexões e processos. Isso não mede capacidade de tráfego. Cada instância de eventos mantém uma conexão direta com o banco; novas camadas só devem vir com uma necessidade observada.",
+        "hosting": "A integração foi validada localmente com Neon. Descoberta da função Socket.IO, roteamento e HTTPS/WSS na Vercel ainda precisam de validação na hospedagem. Revisão final de qualidade e documentação também fazem parte das próximas entregas."
+      }
+    },
+    "repository": {
+      "title": "Continue pelo código.",
+      "body": "Os exemplos acima apontam para arquivos reais na branch develop. Consulte o serviço, os componentes e os testes para acompanhar as decisões na implementação.",
+      "credit": "Projeto autoral de Higor Braga, com uso pontual de ferramentas de IA durante o desenvolvimento. Sem vínculo oficial com a Jungle Gaming."
+    }
   },
   "language": {
     "label": "Idioma",
@@ -43,5 +210,431 @@
     "title": "Página não encontrada",
     "description": "O endereço que você acessou não está disponível.",
     "backHome": "Voltar ao início"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "Portfólio interativo · Front-End",
+      "titleStart": "Interfaces com intenção.",
+      "titleAccent": "Interações",
+      "titleEnd": "com personalidade.",
+      "description": "Sou desenvolvedor full stack com foco em front-end. Trabalho com React, Next.js e TypeScript para transformar ideias em interfaces e experiências digitais.",
+      "location": "{{city}} / {{region}} · Brasil",
+      "demo": "Explorar demonstração",
+      "project": "Conhecer o projeto"
+    },
+    "about": {
+      "eyebrow": "Sobre",
+      "title": "Quem está por trás da interface",
+      "description": "Gosto de entender a aplicação além da tela: como os dados chegam, como os estados se conectam e como a interface responde a cada interação. Meu trabalho reúne desenvolvimento de interfaces, integração com APIs, testes e documentação técnica.",
+      "facts": {
+        "work": {
+          "title": "Desenvolvimento no dia a dia",
+          "description": "Atuo no {{company}}, no time dos produtos digitais do {{team}}. Antes, trabalhei na {{previousCompany}} em aplicações B2C E-care da {{previousProduct}}."
+        },
+        "education": {
+          "title": "Formação em software",
+          "description": "Sou tecnólogo em Desenvolvimento de Software Multiplataforma pela {{school}} e pós-graduado em Desenvolvimento Full Stack e Cloud Computing pela {{postgraduateSchool}}."
+        },
+        "learning": {
+          "title": "Aprendizado contínuo",
+          "description": "Aprofundo meus estudos em arquitetura e desenvolvimento de sistemas com ênfase em padrões de projeto, além de testes automatizados e processos de entrega."
+        }
+      },
+      "skills": "Conhecimentos",
+      "skillLabels": {
+        "restApis": "APIs REST",
+        "automatedTesting": "Testes",
+        "frontendArchitecture": "Arquitetura"
+      },
+      "projects": "Projetos selecionados",
+      "projectDescriptions": {
+        "border": "Catálogo responsivo de filhotes com filtros, páginas de detalhes e galeria de imagens.",
+        "threadflow": "Landing page institucional com apresentação do produto, seções interativas e conteúdo organizado para navegação e SEO.",
+        "maestri": "Site institucional com conteúdo sobre Direito do Consumidor, calculadora informativa de prazos e contato por WhatsApp ou e-mail."
+      },
+      "sourceCode": "Código",
+      "visitProject": " — visitar site"
+    },
+    "game": {
+      "eyebrow": "O minigame",
+      "name": "Lucky Canopy",
+      "description": "Uma experiência de três rolos, pensada para explorar interfaces e interações. Um pequeno projeto para acompanhar do primeiro clique ao resultado.",
+      "features": {
+        "credits": {
+          "title": "Créditos fictícios",
+          "description": "A proposta parte de 1.000 créditos virtuais, sem pagamentos ou valor monetário."
+        },
+        "responsive": {
+          "title": "Interface responsiva",
+          "description": "Uma composição que se adapta do celular ao desktop, mantendo a máquina em foco."
+        },
+        "history": {
+          "title": "Histórico de rodadas",
+          "description": "Consulte as últimas cinco rodadas confirmadas, com aposta e resultado."
+        }
+      },
+      "disclaimer": "Demonstração sem dinheiro real.",
+      "progress": "As máquinas desta página são prévias ilustrativas. Na demonstração, o servidor confirma as rodadas e o saldo."
+    },
+    "preview": {
+      "edition": "Nº 01 · 3 rolos",
+      "balance": "Saldo",
+      "credits": "créditos",
+      "combination": "Combinação · +{{credits}}",
+      "badge": "Prévia visual",
+      "spin": "Girar",
+      "result": "Combinação! +{{credits}} créditos",
+      "heroCaption": "Fig. 1 — Prévia ilustrativa: três rolos, uma linha. Valores de exemplo.",
+      "detailCaption": "Fig. 2 — Estudo visual de uma combinação. Os controles e valores são ilustrativos.",
+      "symbols": {
+        "leaf": "Folha",
+        "flower": "Flor",
+        "cherry": "Fruto",
+        "gem": "Gema"
+      }
+    },
+    "decisions": {
+      "eyebrow": "Decisões de projeto",
+      "title": "Três frentes de trabalho",
+      "link": "Conhecer as decisões",
+      "interface": {
+        "title": "Interface e responsividade",
+        "description": "Uma coluna no celular e mais espaço para a composição no desktop. Tema, navegação e foco visível compartilham os mesmos componentes em toda a aplicação."
+      },
+      "data": {
+        "title": "Dados e estados da aplicação",
+        "description": "Sessão, saldo e rodadas são confirmados pelo servidor. Axios realiza as requisições, e TanStack Query mantém o estado remoto separado da animação."
+      },
+      "motion": {
+        "title": "Interações e animações",
+        "description": "Os rolos apresentam o resultado confirmado em sequência, com 260 ms entre paradas. Texto e movimento reduzido mantêm a experiência acessível."
+      },
+      "states": {
+        "ready": "Pronto",
+        "checking": "Verificando",
+        "result": "Resultado"
+      },
+      "reel": "Rolo {{number}}",
+      "delay": "+{{delay}} ms"
+    }
+  },
+  "game": {
+    "description": "Três rolos, quatro símbolos e uma linha de combinação. Explore a interface e as regras da demonstração.",
+    "disclaimer": "Créditos fictícios · sem dinheiro real",
+    "machine": "Máquina Lucky Canopy",
+    "navigation": {
+      "examples": "Exemplos"
+    },
+    "symbols": {
+      "leaf": "Folha",
+      "flower": "Flor",
+      "cherry": "Fruto",
+      "gem": "Gema"
+    },
+    "balance": {
+      "label": "Saldo",
+      "credits": "créditos",
+      "unknown": "—"
+    },
+    "bet": {
+      "label": "Aposta por rodada"
+    },
+    "status": {
+      "example": "Exemplo local",
+      "unavailable": "Sem sessão",
+      "offline": "Sem conexão",
+      "failed": "Sem resposta",
+      "verifying": "Verificando…",
+      "loading": "Carregando…",
+      "http": "Saldo confirmado"
+    },
+    "sound": {
+      "on": "Som ligado",
+      "off": "Som desligado",
+      "unavailable": "Não foi possível ativar o áudio neste navegador. A interface continua disponível sem som."
+    },
+    "reel": {
+      "spinning": "Rolo {{number}}: girando",
+      "value": "Rolo {{number}}: {{symbol}}",
+      "unknown": "Rolo {{number}}: aguardando confirmação",
+      "placeholder": "?"
+    },
+    "actions": {
+      "spin": "Girar",
+      "spinning": "Girando…",
+      "animateExample": "Animar exemplo",
+      "recoverExample": "Verificar exemplo",
+      "resetExample": "Reiniciar exemplo",
+      "confirmReset": "Reiniciar",
+      "cancel": "Cancelar",
+      "close": "Fechar"
+    },
+    "rules": {
+      "title": "Combinações",
+      "table": "Tabela de combinações",
+      "line": "Na linha",
+      "prize": "Prêmio",
+      "withBet": "Com {{bet}}",
+      "times": "×",
+      "matches": {
+        "gem": "3 gemas",
+        "cherry": "3 frutos",
+        "flower": "3 flores",
+        "leaf": "3 folhas"
+      },
+      "intro": "A proposta do jogo usa 1.000 créditos fictícios e apostas de 10, 25 ou 50. Três símbolos iguais na linha central formam uma combinação. Não há pagamentos, saques ou valor monetário.",
+      "description": "Valores de apresentação com a aposta selecionada: {{bet}} créditos.",
+      "note": "O prêmio é o total creditado na rodada; a aposta é descontada uma única vez. Sem combinação, não há prêmio. Não há promessa de probabilidades ou RTP."
+    },
+    "history": {
+      "title": "Últimas rodadas",
+      "limit": "até 5",
+      "empty": "Suas rodadas aparecerão aqui",
+      "number": "#{{number}}",
+      "bet": "Aposta {{bet}}",
+      "prize": "+{{prize}}",
+      "noPrize": "Sem prêmio"
+    },
+    "reset": {
+      "title": "Reiniciar este exemplo?",
+      "description": "Somente o exemplo visual será restaurado para 1.000 créditos e histórico vazio. Nenhuma sessão ou rodada de servidor será alterada."
+    },
+    "examples": {
+      "title": "Exemplos da interface",
+      "description": "Cenários locais com valores fixos, sem apostas, sorteios ou conexão de rodadas. Animar reproduz uma prévia conhecida; não calcula um novo resultado. Trocar o cenário interrompe a animação anterior.",
+      "scenario": "Estado de exemplo",
+      "reduceMotion": "Reduzir movimento no exemplo",
+      "scenarios": {
+        "ready": "Pronto / histórico vazio",
+        "loading": "Carregamento",
+        "spinning": "Rolos girando",
+        "win": "Combinação / histórico preenchido",
+        "loss": "Sem combinação",
+        "insufficient": "Saldo insuficiente",
+        "offline": "Sem conexão",
+        "verifying": "Verificando resultado",
+        "failed": "Falha na confirmação"
+      }
+    },
+    "messages": {
+      "unavailable": {
+        "title": "Sem sessão neste exemplo",
+        "body": "Este quadro representa a interface antes de existir uma sessão. Os dados permanecem desconhecidos; nenhuma rodada será enviada."
+      },
+      "loading": {
+        "title": "Carregando demonstração…",
+        "body": "Aguardando os dados necessários para apresentar a sessão. Uma nova rodada permanece bloqueada."
+      },
+      "ready": {
+        "title": "Pronto para explorar",
+        "body": "Aposta fixa do exemplo: {{bet}} créditos. A animação apresenta um cenário conhecido, sem enviar uma aposta."
+      },
+      "spinning": {
+        "title": "Girando…",
+        "body": "Animação de exemplo em andamento. Aguarde os três rolos pararem; os valores ainda não foram substituídos pelo quadro final."
+      },
+      "stopping": {
+        "title": "Apresentando o resultado…",
+        "body": "Os rolos param em sequência. O quadro completo será apresentado ao terminar a animação."
+      },
+      "win": {
+        "title": "Combinação! +{{prize}} créditos",
+        "body": "Três flores na linha neste exemplo. O prêmio exibido é o total creditado para uma aposta de {{bet}} créditos."
+      },
+      "loss": {
+        "title": "Rodada sem combinação",
+        "body": "Este quadro ilustra uma rodada sem prêmio, com aposta de {{bet}} créditos. Não foi realizada uma nova aposta."
+      },
+      "insufficient": {
+        "title": "Saldo insuficiente",
+        "body": "O exemplo tem {{balance}} créditos e uma aposta de {{bet}}. Numa sessão disponível, escolha uma aposta menor ou reinicie quando não houver rodada pendente."
+      },
+      "offline": {
+        "title": "Sem conexão",
+        "body": "Este cenário representa uma conexão indisponível. Uma nova rodada deve aguardar o restabelecimento da sessão."
+      },
+      "verifying": {
+        "title": "Verificando resultado…",
+        "body": "O resultado ainda não está confirmado. Não inicie outra rodada enquanto a verificação estiver pendente."
+      },
+      "failed": {
+        "title": "Não foi possível confirmar o resultado",
+        "body": "O valor exibido é a última referência, não uma garantia de saldo atualizado. Verifique o mesmo resultado antes de continuar, sem reenviar a aposta."
+      }
+    },
+    "api": {
+      "start": "Iniciar demonstração",
+      "refresh": "Atualizar sessão",
+      "verify": "Verificar resultado",
+      "retry": "Tentar concluir",
+      "reset": "Reiniciar sessão",
+      "resetTitle": "Reiniciar a demonstração?",
+      "resetDescription": "Seu saldo voltará a 1.000 créditos fictícios e o histórico exibido será limpo. Não há dinheiro real. O reinício só será confirmado após a resposta do servidor.",
+      "pending": "O resultado ainda não foi confirmado. Verifique ou tente concluir a mesma solicitação. Nenhuma aposta nova será criada.",
+      "errors": {
+        "INVALID_INPUT": "A solicitação não foi aceita. Atualize a sessão antes de continuar.",
+        "SESSION_REQUIRED": "Inicie a demonstração para receber seus créditos fictícios.",
+        "SESSION_EXPIRED": "Sua sessão expirou. Inicie uma nova demonstração para continuar.",
+        "SESSION_CHANGED": "A sessão foi alterada em outra aba. Atualize os dados antes de continuar.",
+        "SESSION_LIMIT": "Esta sessão atingiu o limite de operações. Aguarde sua expiração para iniciar outra.",
+        "INSUFFICIENT_BALANCE": "Saldo insuficiente para essa aposta. Atualize a sessão e escolha um valor menor ou reinicie.",
+        "IDEMPOTENCY_CONFLICT": "Não foi possível conciliar essa solicitação. Atualize a sessão antes de continuar.",
+        "ROUND_NOT_FOUND": "A rodada ainda não foi encontrada. Isso não confirma que a solicitação foi cancelada.",
+        "FORBIDDEN_ORIGIN": "A origem da solicitação não foi aceita. Reabra a demonstração pelo endereço do site.",
+        "UNSUPPORTED_MEDIA_TYPE": "O formato da solicitação não foi aceito. Atualize a página.",
+        "PAYLOAD_TOO_LARGE": "A solicitação ultrapassou o limite permitido. Atualize a página.",
+        "GAME_UNAVAILABLE": "O serviço está indisponível. Aguarde e verifique novamente.",
+        "NETWORK_ERROR": "A conexão falhou ou demorou demais. O saldo exibido é a última confirmação recebida.",
+        "INVALID_RESPONSE": "A resposta não pôde ser validada. Verifique a sessão antes de continuar.",
+        "STORAGE_UNAVAILABLE": "Não foi possível guardar os dados de recuperação nesta aba. Permita o armazenamento temporário para jogar com segurança."
+      },
+      "checking": "Verificando…"
+    },
+    "realtime": {
+      "idle": "Inicie uma sessão para receber atualizações ao vivo.",
+      "connecting": "Conectando atualizações ao vivo…",
+      "connected": "Atualizações ao vivo conectadas.",
+      "reconnecting": "Reconectando atualizações ao vivo… O jogo continua disponível.",
+      "offline": "Atualizações ao vivo indisponíveis. Você pode continuar jogando e atualizar a sessão.",
+      "retry": "Reconectar"
+    },
+    "liveMessages": {
+      "unavailable": {
+        "title": "Inicie a demonstração",
+        "body": "Uma sessão usa créditos fictícios e guarda as rodadas no servidor. Nenhum pagamento é necessário."
+      },
+      "loading": {
+        "title": "Carregando sessão…",
+        "body": "Buscando o último saldo e histórico confirmados."
+      },
+      "ready": {
+        "title": "Pronto para jogar",
+        "body": "Escolha uma aposta e gire. O servidor confirma os símbolos, o prêmio e o saldo."
+      },
+      "spinning": {
+        "title": "Girando…",
+        "body": "Aguardando a confirmação da rodada. Uma nova aposta permanece bloqueada."
+      },
+      "stopping": {
+        "title": "Apresentando o resultado…",
+        "body": "O servidor confirmou a rodada. Os rolos apenas apresentam os símbolos recebidos."
+      },
+      "win": {
+        "title": "Combinação! +{{prize}} créditos",
+        "body": "O prêmio da última rodada já está incluído no saldo confirmado."
+      },
+      "loss": {
+        "title": "Rodada sem combinação",
+        "body": "A última rodada foi confirmada sem prêmio. O saldo já inclui o desconto da aposta."
+      },
+      "insufficient": {
+        "title": "Saldo insuficiente",
+        "body": "O último saldo confirmado é {{balance}} créditos para uma aposta de {{bet}}. Escolha uma aposta menor ou reinicie a sessão."
+      },
+      "offline": {
+        "title": "Sem conexão",
+        "body": "Aguarde a conexão e verifique a sessão antes de continuar."
+      },
+      "verifying": {
+        "title": "Verificando sessão…",
+        "body": "Consultando os dados confirmados. Não inicie outra rodada enquanto a verificação estiver pendente."
+      },
+      "failed": {
+        "title": "Não foi possível confirmar",
+        "body": "Confira a mensagem abaixo. Uma falha de conexão não garante que uma rodada tenha sido cancelada."
+      }
+    }
+  },
+  "catalog": {
+    "eyebrow": "Lucky Canopy / referências da interface",
+    "links": {
+      "label": "Referências do projeto",
+      "system": "Sistema visual",
+      "showcase": "Galeria de estados",
+      "project": "Conhecer o projeto"
+    },
+    "system": {
+      "resetDescription": "Somente a seleção e a tabela deste exemplo voltarão para 10 créditos. O quadro fixo e qualquer sessão do jogo permanecem inalterados.",
+      "title": "Uma linguagem visual compartilhada.",
+      "metadataTitle": "Sistema visual | Lucky Canopy",
+      "intro": "Cores, tipografia e componentes usados no projeto. Uma referência pequena para conferir a interface e experimentar controles sem iniciar uma sessão de jogo.",
+      "palette": "Cores e significado",
+      "paletteNote": "As amostras usam os mesmos tokens da aplicação e acompanham o tema escolhido no cabeçalho. Cor e texto trabalham juntos para identificar cada estado.",
+      "tokens": {
+        "background": "Fundo",
+        "surface": "Superfície",
+        "text": "Texto principal",
+        "accent": "Destaque",
+        "success": "Sucesso",
+        "error": "Erro"
+      },
+      "gradient": "O gradiente de pôr do sol destaca ações principais e a assinatura visual do jogo.",
+      "typography": "Três fontes, papéis definidos.",
+      "samples": {
+        "body": "Interfaces com intenção.",
+        "display": "Explorar",
+        "script": "Lucky Canopy"
+      },
+      "fontRoles": {
+        "body": "Títulos, parágrafos e controles.",
+        "display": "Ações de destaque e títulos do jogo.",
+        "script": "Assinatura e nome do minigame."
+      },
+      "controls": "Controles em uso",
+      "controlsNote": "Estes controles alteram apenas os exemplos abaixo. Nenhuma escolha envia aposta, consulta saldo ou se conecta ao jogo.",
+      "buttons": {
+        "default": "Principal",
+        "outline": "Contorno",
+        "ghost": "Discreto",
+        "disabled": "Desabilitado",
+        "loading": "Carregando…"
+      },
+      "feedback": {
+        "initial": "Experimente os botões ou navegue com Tab.",
+        "default": "Botão principal acionado neste exemplo.",
+        "outline": "Botão de contorno acionado neste exemplo.",
+        "ghost": "Botão discreto acionado neste exemplo.",
+        "reset": "Exemplo restaurado para a seleção inicial."
+      },
+      "betNote": "A seleção atualiza somente esta tabela ilustrativa. Reiniciar restaura a seleção de 10 créditos.",
+      "symbols": "Símbolos com nomes",
+      "composition": "Componentes juntos",
+      "compositionNote": "Um quadro fixo de combinação reúne rolos, saldo, mensagem e histórico. Os valores são exemplos independentes da sua sessão; as animações estão desativadas."
+    },
+    "showcase": {
+      "title": "Cada estado, sem depender da conexão.",
+      "metadataTitle": "Galeria de estados | Lucky Canopy",
+      "intro": "Explore quadros determinísticos de carregamento, resultado e falha. Todos usam dados locais de exemplo e os componentes visuais do jogo, sem acessar ou modificar uma sessão real."
+    },
+    "gallery": {
+      "scenario": "Estado do exemplo",
+      "width": "Largura da prévia",
+      "animate": "Ativar animações nesta prévia",
+      "sizes": {
+        "compact": "Até 320 px",
+        "medium": "Até 768 px",
+        "fluid": "Área disponível"
+      },
+      "widthNote": "A largura é limitada ao espaço disponível nesta página; não representa uma emulação de dispositivo. As animações começam desligadas e respeitam a preferência de movimento reduzido do sistema.",
+      "caption": "Quadro de referência: {{scenario}}"
+    },
+    "preview": {
+      "machine": "Máquina ilustrativa, somente leitura",
+      "fixed": "Dados de exemplo",
+      "readonly": "Prévia somente leitura. Não envia rodadas, não consulta saldo e não altera sua sessão."
+    },
+    "scenarios": {
+      "unavailable": "Sem sessão",
+      "ready": "Pronto / histórico vazio",
+      "loading": "Carregamento",
+      "spinning": "Rolos girando",
+      "stopping": "Parada em sequência",
+      "win": "Combinação / histórico preenchido",
+      "loss": "Sem combinação",
+      "insufficient": "Saldo insuficiente",
+      "offline": "Sem conexão",
+      "verifying": "Verificando resultado",
+      "failed": "Falha na confirmação"
+    }
   }
 }
