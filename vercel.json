@@ -1,0 +1,30 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "git": {
+    "deploymentEnabled": false
+  },
+  "services": {
+    "web": {
+      "root": ".",
+      "framework": "nextjs",
+      "installCommand": "npm ci",
+      "buildCommand": "npm run build"
+    },
+    "realtime": {
+      "root": ".",
+      "runtime": "node",
+      "entrypoint": "api/realtime.ts",
+      "installCommand": "npm ci"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/realtime/:path*",
+      "destination": { "service": "realtime" }
+    },
+    {
+      "source": "/:path*",
+      "destination": { "service": "web" }
+    }
+  ]
+}
