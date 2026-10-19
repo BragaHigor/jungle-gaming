@@ -28,8 +28,154 @@
     "credits": "Créditos fictícios, sem valor monetário."
   },
   "project": {
-    "title": "O projeto",
-    "pending": "Esta página está em construção. Aqui serão apresentadas as decisões e a arquitetura do Lucky Canopy conforme a implementação avançar."
+    "sectionLabel": "{{number}} / {{label}}",
+    "metadata": {
+      "title": "O projeto | Lucky Canopy",
+      "description": "Conheça o fluxo de uma rodada, as tecnologias e as decisões de arquitetura do Lucky Canopy."
+    },
+    "eyebrow": "Lucky Canopy / por dentro do projeto",
+    "title": "Do primeiro clique ao resultado.",
+    "intro": "Uma demonstração pequena para explorar a aplicação inteira: interface, API, persistência e recuperação de falhas. Aqui, cada decisão tem um lugar no código.",
+    "demo": "Explorar demonstração",
+    "code": "Ver no GitHub",
+    "back": "Voltar à apresentação",
+    "index": "Nesta página",
+    "sections": {
+      "purpose": "Objetivo e escopo",
+      "stack": "Tecnologias",
+      "flow": "Fluxo da rodada",
+      "architecture": "Arquitetura",
+      "decisions": "Decisões e falhas",
+      "quality": "Qualidade e entrega",
+      "limits": "Limites e próximos passos",
+      "repository": "Repositório"
+    },
+    "purpose": {
+      "title": "Um projeto que cabe numa conversa.",
+      "body": "O Lucky Canopy reúne um portfólio pessoal e um minigame de três rolos. O objetivo é demonstrar uma interface responsiva e acompanhar os dados até o servidor, com responsabilidades que sejam fáceis de localizar e explicar.",
+      "facts": {
+        "reels": {
+          "label": "Composição",
+          "value": "3 rolos · 1 linha"
+        },
+        "credits": {
+          "label": "Saldo inicial fictício",
+          "value": "1.000 créditos"
+        },
+        "history": {
+          "label": "Histórico visível",
+          "value": "5 rodadas"
+        }
+      },
+      "scope": "Apostas de 10, 25 ou 50 créditos virtuais. Sem cadastro, pagamentos ou dinheiro real. Quatro símbolos e uma única linha de combinação mantêm o escopo enxuto."
+    },
+    "stack": {
+      "title": "Cada tecnologia tem um papel.",
+      "caption": "Tecnologias utilizadas e suas responsabilidades",
+      "technology": "Tecnologia",
+      "role": "Onde entra",
+      "roles": {
+        "pages": "Páginas, layout e endpoints. TypeScript descreve os contratos entre as partes.",
+        "routing": "Painéis Máquina, Regras e Exemplos dentro de /play, com histórico em memória.",
+        "data": "Query mantém a sessão confirmada em cache; Axios transporta as requisições HTTP.",
+        "events": "Avisa sobre mudanças na sessão. Ao conectar ou reconectar, o cliente consulta a API.",
+        "database": "Transações, bloqueio da sessão e persistência. LISTEN/NOTIFY comunica mudanças entre processos.",
+        "interface": "Tokens visuais, responsividade e controles locais compostos com Radix.",
+        "validation": "Validação em tempo de execução das entradas da API, respostas e eventos.",
+        "language": "Textos, mensagens acessíveis e metadados em PT-BR e EN.",
+        "delivery": "Testes automatizados, validação antes do commit e workflow de integração contínua."
+      }
+    },
+    "flow": {
+      "title": "Uma rodada, cinco etapas.",
+      "steps": {
+        "intent": {
+          "title": "Registrar a intenção",
+          "body": "O clique cria um identificador e guarda a solicitação pendente nesta aba antes de enviar. Uma nova rodada fica bloqueada."
+        },
+        "request": {
+          "title": "Enviar pela API",
+          "body": "A mutação usa Axios. O endpoint identifica a sessão pelo cookie HTTP-only e valida a entrada com Zod."
+        },
+        "transaction": {
+          "title": "Confirmar no banco",
+          "body": "O serviço confere saldo e identificador. Sorteio, cálculo e gravação ocorrem na mesma transação, com bloqueio da sessão."
+        },
+        "confirmation": {
+          "title": "Receber a confirmação",
+          "body": "A resposta atualiza o cache. Após COMMIT, o banco também avisa o Socket.IO; o evento pode provocar uma consulta HTTP."
+        },
+        "presentation": {
+          "title": "Revelar a rodada",
+          "body": "Os rolos apresentam os símbolos recebidos. Saldo, prêmio e histórico anteriores ficam visíveis até a animação terminar; então são revelados juntos."
+        }
+      },
+      "caption": "O servidor define o resultado. A animação só o apresenta. Se um evento chegar durante o giro, a sincronização aguarda sua conclusão."
+    },
+    "architecture": {
+      "title": "Organização com exemplos concretos.",
+      "body": "Um repositório, organizado por funcionalidade. Interface, transporte, regras e armazenamento têm responsabilidades separadas. Abra cada exemplo para localizar sua implementação.",
+      "source": "Arquivos em develop · abrem em outra aba",
+      "patterns": {
+        "composition": {
+          "title": "Composição de componentes",
+          "body": "GameBoard combina rolos, seleção de aposta, mensagem e histórico. Cada parte recebe dados e ações, permitindo ajustar a apresentação sem mover as regras do jogo para a tela."
+        },
+        "service": {
+          "title": "Serviço e funções puras",
+          "body": "O serviço coordena a rodada e sua persistência. Em rules.ts, o cálculo depende só dos argumentos: isso permite testar saldo e prêmio com resultados determinísticos."
+        },
+        "repository": {
+          "title": "Repository específico",
+          "body": "O contrato descreve as operações de sessão e rodada que o serviço precisa. storage.ts implementa essas operações em PostgreSQL e concentra transações e consultas SQL."
+        },
+        "dependencies": {
+          "title": "Dependências explícitas",
+          "body": "O serviço recebe repository, sorteio e gerador de identificadores. O runtime fornece as implementações reais; os testes fornecem versões controladas, sem contêiner de injeção."
+        }
+      }
+    },
+    "decisions": {
+      "title": "O que acontece fora do caminho ideal?",
+      "items": {
+        "presentation": {
+          "title": "Dado confirmado e momento de exibir",
+          "body": "O cache recebe a confirmação imediatamente. Uma cópia visual da sessão anterior evita antecipar saldo e histórico. Movimento reduzido dispensa a espera da animação; som começa desligado."
+        },
+        "routing": {
+          "title": "Dois roteadores, fronteiras claras",
+          "body": "Next.js controla /, /play e /project. TanStack Router cuida apenas dos painéis internos do jogo. O histórico em memória preserva o workspace, mas não oferece links diretos para cada painel."
+        },
+        "recovery": {
+          "title": "Timeout não significa cancelamento",
+          "body": "Uma resposta perdida é recuperada por GET com o mesmo identificador. Um 404 ainda pode anteceder a confirmação: a pendência permanece e nenhuma aposta nova é enviada automaticamente. Versão e geração protegem contra respostas antigas e reinícios em outra aba."
+        }
+      }
+    },
+    "quality": {
+      "commands": {
+        "check": "npm run check",
+        "integration": "npm run test:integration"
+      },
+      "title": "Verificar antes de integrar.",
+      "body": "Testes cobrem regras, contratos HTTP, recuperação e apresentação. A integração usa PostgreSQL de testes para verificar concorrência, rollback, idempotência e eventos entre instâncias.",
+      "check": "Lint, formatação, tipos, testes e build. O Husky executa esse comando antes de commits normais.",
+      "integration": "Executa os testes de banco com TEST_DATABASE_URL e schemas temporários isolados.",
+      "delivery": "O workflow do GitHub Actions está no repositório. Branches de trabalho partem de develop e voltam por PR; main é o destino de produção. A publicação automática na Vercel será configurada na etapa de deploy."
+    },
+    "limits": {
+      "title": "Limites que orientam a evolução.",
+      "items": {
+        "events": "LISTEN/NOTIFY não guarda eventos perdidos. A reconexão recupera o estado por HTTP; uma perda silenciosa de aviso em outra aba pode exigir atualizar a sessão manualmente.",
+        "scale": "A atomicidade foi testada entre conexões e processos. Isso não mede capacidade de tráfego. Cada instância de eventos mantém uma conexão direta com o banco; novas camadas só devem vir com uma necessidade observada.",
+        "hosting": "A integração foi validada localmente com Neon. Descoberta da função Socket.IO, roteamento e HTTPS/WSS na Vercel ainda precisam de validação na hospedagem. Revisão final de qualidade e documentação também fazem parte das próximas entregas."
+      }
+    },
+    "repository": {
+      "title": "Continue pelo código.",
+      "body": "Os exemplos acima apontam para arquivos reais na branch develop. Consulte o serviço, os componentes e os testes para acompanhar as decisões na implementação.",
+      "credit": "Projeto autoral de Higor Braga, com uso pontual de ferramentas de IA durante o desenvolvimento. Sem vínculo oficial com a Jungle Gaming."
+    }
   },
   "language": {
     "label": "Idioma",
