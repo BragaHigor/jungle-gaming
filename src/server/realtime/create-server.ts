@@ -39,6 +39,7 @@ export function createRealtimeServer(
 
   const io = new Server<RealtimeClientEvents, RealtimeServerEvents>(server, {
     path: realtimePath,
+    addTrailingSlash: false,
     transports: ["websocket"],
     serveClient: false,
     cors: { origin: allowedOrigins },

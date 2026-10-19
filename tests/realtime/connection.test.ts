@@ -107,7 +107,11 @@ describe("restrições da conexão em tempo real", () => {
     events.close();
   });
 
-  it("conecta o cliente do projeto com uma origem permitida e recebe uma confirmação", async () => {
+  it("conecta sem barra final no handshake e recebe uma confirmação", async () => {
+    let handshakePath: string | undefined;
+    infrastructure.server.prependOnceListener("upgrade", (request) => {
+      handshakePath = new URL(request.url!, "http://localhost").pathname;
+    });
     const client = createClient("http://localhost:3000");
     const connected = new Promise<void>((resolve, reject) => {
       client.once("connect", resolve);
@@ -115,6 +119,7 @@ describe("restrições da conexão em tempo real", () => {
     });
     client.connect();
     await connected;
+    expect(handshakePath).toBe("/api/realtime/socket.io");
 
     await expect(
       client.timeout(3000).emitWithAck("infrastructure:ping"),
