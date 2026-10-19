@@ -1,7 +1,6 @@
-export const bets = [10, 25, 50] as const;
-export type Bet = (typeof bets)[number];
-export const symbols = ["leaf", "flower", "cherry", "gem"] as const;
-export type GameSymbol = (typeof symbols)[number];
+import type { Bet, GameSymbol } from "./contracts";
+export { bets, symbols } from "./contracts";
+export type { Bet, GameSymbol } from "./contracts";
 export type Reel = readonly [
   GameSymbol | null,
   GameSymbol | null,
