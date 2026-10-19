@@ -14,7 +14,8 @@
       "root": ".",
       "runtime": "node",
       "entrypoint": "api/realtime.ts",
-      "installCommand": "npm ci"
+      "installCommand": "npm ci",
+      "buildCommand": "node --version"
     }
   },
   "rewrites": [
