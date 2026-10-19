@@ -24,7 +24,7 @@
   },
   "footer": {
     "independent": "Projeto independente de portfólio.",
-    "affiliation": "Sem vínculo oficial com a Jungle Gaming.",
+    "affiliation": "Uma demonstração independente de desenvolvimento web.",
     "credits": "Créditos fictícios, sem valor monetário."
   },
   "project": {
@@ -161,20 +161,20 @@
       "body": "Testes cobrem regras, contratos HTTP, recuperação e apresentação. A integração usa PostgreSQL de testes para verificar concorrência, rollback, idempotência e eventos entre instâncias.",
       "check": "Lint, formatação, tipos, testes e build. O Husky executa esse comando antes de commits normais.",
       "integration": "Executa os testes de banco com TEST_DATABASE_URL e schemas temporários isolados.",
-      "delivery": "O workflow do GitHub Actions está no repositório. Branches de trabalho partem de develop e voltam por PR; main é o destino de produção. A publicação automática na Vercel será configurada na etapa de deploy."
+      "delivery": "Branches de trabalho partem de develop e voltam por PR. O GitHub Actions valida o código e publica develop em homologação e main em produção na Vercel. Serviços e páginas são conferidos antes da promoção dos domínios de produção."
     },
     "limits": {
       "title": "Limites que orientam a evolução.",
       "items": {
         "events": "LISTEN/NOTIFY não guarda eventos perdidos. A reconexão recupera o estado por HTTP; uma perda silenciosa de aviso em outra aba pode exigir atualizar a sessão manualmente.",
         "scale": "A atomicidade foi testada entre conexões e processos. Isso não mede capacidade de tráfego. Cada instância de eventos mantém uma conexão direta com o banco; novas camadas só devem vir com uma necessidade observada.",
-        "hosting": "A integração foi validada localmente com Neon. Descoberta da função Socket.IO, roteamento e HTTPS/WSS na Vercel ainda precisam de validação na hospedagem. Revisão final de qualidade e documentação também fazem parte das próximas entregas."
+        "hosting": "Web e eventos são hospedados na Vercel, com bancos Neon separados por ambiente. Healths HTTP não comprovam sessão ou WebSocket: esses fluxos também precisam de conferência após publicar. Serviços em Beta e limites de conexão exigem acompanhamento."
       }
     },
     "repository": {
       "title": "Continue pelo código.",
       "body": "Os exemplos acima apontam para arquivos reais na branch develop. Consulte o serviço, os componentes e os testes para acompanhar as decisões na implementação.",
-      "credit": "Projeto autoral de Higor Braga, com uso pontual de ferramentas de IA durante o desenvolvimento. Sem vínculo oficial com a Jungle Gaming."
+      "credit": "Projeto autoral de Higor Braga, com uso pontual de ferramentas de IA durante o desenvolvimento. Uma demonstração independente de desenvolvimento web."
     }
   },
   "language": {
