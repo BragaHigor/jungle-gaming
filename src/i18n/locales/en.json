@@ -28,8 +28,154 @@
     "credits": "Virtual credits with no monetary value."
   },
   "project": {
-    "title": "The project",
-    "pending": "This page is under construction. It will explain the decisions and architecture behind Lucky Canopy as the implementation progresses."
+    "sectionLabel": "{{number}} / {{label}}",
+    "metadata": {
+      "title": "The project | Lucky Canopy",
+      "description": "Explore a round's journey, the technologies and the architecture decisions behind Lucky Canopy."
+    },
+    "eyebrow": "Lucky Canopy / inside the project",
+    "title": "From the first click to the result.",
+    "intro": "A small demo to explore the whole application: interface, API, persistence and failure recovery. Every decision has a place in the code.",
+    "demo": "Explore the demo",
+    "code": "View on GitHub",
+    "back": "Back to introduction",
+    "index": "On this page",
+    "sections": {
+      "purpose": "Purpose and scope",
+      "stack": "Technologies",
+      "flow": "Round flow",
+      "architecture": "Architecture",
+      "decisions": "Decisions and failures",
+      "quality": "Quality and delivery",
+      "limits": "Limits and next steps",
+      "repository": "Repository"
+    },
+    "purpose": {
+      "title": "A project you can walk through.",
+      "body": "Lucky Canopy brings together a personal portfolio and a three-reel minigame. It demonstrates a responsive interface and follows the data to the server, with responsibilities that are easy to find and explain.",
+      "facts": {
+        "reels": {
+          "label": "Composition",
+          "value": "3 reels · 1 line"
+        },
+        "credits": {
+          "label": "Initial virtual balance",
+          "value": "1,000 credits"
+        },
+        "history": {
+          "label": "Visible history",
+          "value": "5 rounds"
+        }
+      },
+      "scope": "Bets of 10, 25 or 50 virtual credits. No registration, payments or real money. Four symbols and one winning line keep the scope small."
+    },
+    "stack": {
+      "title": "Every technology has a role.",
+      "caption": "Technologies used and their responsibilities",
+      "technology": "Technology",
+      "role": "Its role",
+      "roles": {
+        "pages": "Pages, layout and endpoints. TypeScript describes contracts between the parts.",
+        "routing": "Machine, Rules and Examples panels inside /play, using memory history.",
+        "data": "Query caches the confirmed session; Axios handles HTTP requests.",
+        "events": "Signals session changes. On connection or reconnection, the client queries the API.",
+        "database": "Transactions, session locking and persistence. LISTEN/NOTIFY communicates changes between processes.",
+        "interface": "Visual tokens, responsive layouts and local controls composed with Radix.",
+        "validation": "Runtime validation of API inputs, responses and events.",
+        "language": "Copy, accessible messages and metadata in Brazilian Portuguese and English.",
+        "delivery": "Automated tests, validation before committing and a continuous integration workflow."
+      }
+    },
+    "flow": {
+      "title": "One round, five steps.",
+      "steps": {
+        "intent": {
+          "title": "Record the intention",
+          "body": "A click creates an identifier and stores the pending request in this tab before sending it. A new round stays blocked."
+        },
+        "request": {
+          "title": "Send through the API",
+          "body": "The mutation uses Axios. The endpoint identifies the session through the HTTP-only cookie and validates the input with Zod."
+        },
+        "transaction": {
+          "title": "Confirm in the database",
+          "body": "The service checks the balance and identifier. Drawing, calculation and persistence happen in one transaction, with the session locked."
+        },
+        "confirmation": {
+          "title": "Receive confirmation",
+          "body": "The response updates the cache. After COMMIT, the database also notifies Socket.IO; the event can trigger an HTTP query."
+        },
+        "presentation": {
+          "title": "Reveal the round",
+          "body": "The reels present the received symbols. The previous balance, payout and history remain visible until the animation finishes, then update together."
+        }
+      },
+      "caption": "The server determines the result. The animation presents it. Events received during a spin wait until it finishes before synchronizing."
+    },
+    "architecture": {
+      "title": "Organization with concrete examples.",
+      "body": "One repository, organized by feature. Interface, transport, rules and storage have separate responsibilities. Open an example to find its implementation.",
+      "source": "Files on develop · open in a new tab",
+      "patterns": {
+        "composition": {
+          "title": "Component composition",
+          "body": "GameBoard combines reels, bet selection, messages and history. Each part receives data and actions, allowing presentation changes without moving game rules into the screen."
+        },
+        "service": {
+          "title": "Service and pure functions",
+          "body": "The service coordinates the round and its persistence. In rules.ts, calculation depends only on its arguments, making balance and payout tests deterministic."
+        },
+        "repository": {
+          "title": "A specific repository",
+          "body": "The contract describes the session and round operations the service needs. storage.ts implements those operations in PostgreSQL and contains transactions and SQL queries."
+        },
+        "dependencies": {
+          "title": "Explicit dependencies",
+          "body": "The service receives a repository, a drawing function and an identifier generator. The runtime supplies real implementations; tests supply controlled versions, without a dependency injection container."
+        }
+      }
+    },
+    "decisions": {
+      "title": "What happens outside the happy path?",
+      "items": {
+        "presentation": {
+          "title": "Confirmed data and when to display it",
+          "body": "The cache receives confirmation immediately. A visual snapshot of the previous session prevents the balance and history from appearing early. Reduced motion skips the animation wait; sound starts off."
+        },
+        "routing": {
+          "title": "Two routers with clear boundaries",
+          "body": "Next.js controls /, /play and /project. TanStack Router only handles the game's internal panels. Memory history preserves the workspace but does not offer direct links to individual panels."
+        },
+        "recovery": {
+          "title": "A timeout is not a cancellation",
+          "body": "A lost response is recovered through GET using the same identifier. A 404 can precede confirmation: the request stays pending and no new bet is sent automatically. Version and generation protect against old responses and resets in another tab."
+        }
+      }
+    },
+    "quality": {
+      "commands": {
+        "check": "npm run check",
+        "integration": "npm run test:integration"
+      },
+      "title": "Verify before integrating.",
+      "body": "Tests cover rules, HTTP contracts, recovery and presentation. Integration uses test PostgreSQL to verify concurrency, rollback, idempotency and events between instances.",
+      "check": "Lint, formatting, types, tests and build. Husky runs this command before normal commits.",
+      "integration": "Runs database tests with TEST_DATABASE_URL and isolated temporary schemas.",
+      "delivery": "The GitHub Actions workflow is in the repository. Working branches start from develop and return through a PR; main is the production branch. Automatic Vercel delivery will be configured in the deployment stage."
+    },
+    "limits": {
+      "title": "Limits that guide what comes next.",
+      "items": {
+        "events": "LISTEN/NOTIFY does not store missed events. Reconnection recovers state through HTTP; a silently lost update in another tab may require a manual session refresh.",
+        "scale": "Atomicity was tested between connections and processes. This does not measure traffic capacity. Each events instance keeps a direct database connection; additional layers should follow an observed need.",
+        "hosting": "Integration was validated locally with Neon. Socket.IO function discovery, routing and HTTPS/WSS on Vercel still need hosted validation. Final quality review and documentation are also part of the next deliveries."
+      }
+    },
+    "repository": {
+      "title": "Continue through the code.",
+      "body": "The examples above link to real files on the develop branch. Explore the service, components and tests to follow the decisions through the implementation.",
+      "credit": "An original project by Higor Braga, with occasional use of AI tools during development. Not officially affiliated with Jungle Gaming."
+    }
   },
   "language": {
     "label": "Language",
