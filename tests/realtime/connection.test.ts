@@ -3,13 +3,21 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { createRealtimeClient } from "@/features/game/api/realtime";
 import { createRealtimeServer } from "@/server/realtime/create-server";
+import { subscribeToGameEvents } from "@/features/game/api/game-events";
+import { round } from "../game/client-fixtures";
 
 let infrastructure: ReturnType<typeof createRealtimeServer>;
 let clients: ReturnType<typeof createRealtimeClient>[];
 
 beforeEach(async () => {
   clients = [];
-  infrastructure = createRealtimeServer(["http://localhost:3000"]);
+  infrastructure = createRealtimeServer(["http://localhost:3000"], {
+    authorize: async () => ({
+      sessionHash: "test-session",
+      lifetimeMs: 60_000,
+    }),
+    listen: async () => {},
+  });
   infrastructure.server.listen(0, "127.0.0.1");
   await once(infrastructure.server, "listening");
   const address = infrastructure.server.address();
@@ -34,6 +42,48 @@ function createClient(origin?: string) {
 }
 
 describe("restrições da conexão em tempo real", () => {
+  it("valida eventos, sincroniza ao conectar e remove listeners ao sair", async () => {
+    const client = createClient("http://localhost:3000");
+    const synchronize = vi.fn();
+    const status = vi.fn();
+    const events = subscribeToGameEvents({ synchronize, status }, client);
+    await expect.poll(() => client.connected).toBe(true);
+    expect(synchronize).toHaveBeenCalledWith();
+    infrastructure.io.emit("round:completed", { ...round, balance: -1 });
+    infrastructure.io.emit("round:completed", round);
+    infrastructure.io.emit("session:reset", {
+      id: round.id,
+      generation: round.generation,
+      version: 2,
+    });
+    await expect.poll(() => synchronize.mock.calls.length).toBe(3);
+    expect(synchronize.mock.calls).toEqual([[], [1], [2]]);
+    expect(status).toHaveBeenLastCalledWith("connected");
+    events.close();
+    expect(client.listeners("round:completed")).toHaveLength(0);
+    expect(client.listeners("session:reset")).toHaveLength(0);
+    expect(client.io.listeners("reconnect_attempt")).toHaveLength(0);
+    await expect.poll(() => infrastructure.io.sockets.sockets.size).toBe(0);
+  });
+
+  it("reconecta com leitura de sincronização e mantém só uma assinatura ativa", async () => {
+    const client = createClient("http://localhost:3000");
+    const synchronize = vi.fn();
+    const status = vi.fn();
+    const events = subscribeToGameEvents({ synchronize, status }, client);
+    await expect.poll(() => client.connected).toBe(true);
+    // A transport loss allows the Manager to reconnect automatically.
+    for (const socket of infrastructure.io.sockets.sockets.values())
+      socket.conn.close();
+    await expect
+      .poll(() => synchronize.mock.calls.length, { timeout: 4000 })
+      .toBe(2);
+    expect(client.listeners("round:completed")).toHaveLength(1);
+    expect(infrastructure.io.sockets.sockets.size).toBe(1);
+    expect(status).toHaveBeenCalledWith("reconnecting");
+    events.close();
+  });
+
   it("conecta o cliente do projeto com uma origem permitida e recebe uma confirmação", async () => {
     const client = createClient("http://localhost:3000");
     const connected = new Promise<void>((resolve, reject) => {

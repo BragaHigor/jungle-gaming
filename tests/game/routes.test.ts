@@ -158,7 +158,7 @@ describe("contrato HTTP e proteção da sessão", () => {
     expect(response.cookies.get("canopy-session")).toMatchObject({
       httpOnly: true,
       sameSite: "strict",
-      path: "/api/game",
+      path: "/api",
     });
     const body = await response.json();
     expect(body.balance).toBe(1000);
@@ -181,7 +181,29 @@ describe("contrato HTTP e proteção da sessão", () => {
     const response = await createSession(request("session", {}, token));
     expect(response.status).toBe(200);
     expect((await response.json()).balance).toBe(1040);
-    expect(response.headers.get("set-cookie")).toBeNull();
+    expect(response.cookies.get("canopy-session")).toMatchObject({
+      value: token,
+      path: "/api",
+    });
+    expect(response.headers.get("set-cookie")).toContain(
+      "Path=/api/game; Max-Age=0",
+    );
+  });
+
+  it("migra o cookie ao consultar sem mudar saldo, token ou expiração", async () => {
+    const { token, data } = await session();
+    const response = await getSession(request("session", undefined, token));
+    expect(await response.json()).toEqual(data);
+    expect(response.cookies.get("canopy-session")).toMatchObject({
+      value: token,
+      path: "/api",
+      httpOnly: true,
+      sameSite: "strict",
+      expires: new Date(data.expiresAt),
+    });
+    expect(response.headers.get("set-cookie")).toContain(
+      "Path=/api/game; Max-Age=0",
+    );
   });
 
   it("exige cookie válido em consulta e aposta", async () => {

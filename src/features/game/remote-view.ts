@@ -26,39 +26,45 @@ export function remoteView(
     | "pending"
     | "phase"
     | "animation"
-    | "historyBeforeSpin"
+    | "sessionBeforeSpin"
     | "error"
     | "loading"
   >,
   bet: Bet,
 ): GameView {
   const { session, pending, animation, phase, error, loading } = controller;
-  const history =
-    controller.historyBeforeSpin?.generation === session?.generation
-      ? controller.historyBeforeSpin?.history
-      : session?.history;
-  const latest = animation?.round ?? session?.history[0];
+  const visibleSession =
+    controller.sessionBeforeSpin?.generation === session?.generation
+      ? (controller.sessionBeforeSpin ?? session)
+      : session;
+  const latest = visibleSession?.history[0];
+  const reelResult = animation?.round ?? latest;
   const view: GameView = {
     ...createUnavailableView(bet),
-    balance: session?.balance ?? null,
+    balance: visibleSession?.balance ?? null,
     history:
-      history?.map((round) => ({
+      visibleSession?.history.map((round) => ({
         id: round.sequence,
         symbols: round.symbols,
         bet: round.bet,
         prize: round.prize,
       })) ?? [],
-    reels: latest
-      ? reelsForLine(latest.symbols)
+    reels: reelResult
+      ? reelsForLine(reelResult.symbols)
       : createUnavailableView(bet).reels,
     prize: latest?.prize ?? 0,
     phase: latest ? (latest.prize > 0 ? "win" : "loss") : "ready",
   };
-  if (phase === "sending")
+  if (
+    phase === "sending" ||
+    (phase === "checking" && controller.sessionBeforeSpin)
+  )
     return { ...view, phase: "spinning", stoppedReels: 0 };
   if (phase === "checking") return { ...view, phase: "verifying" };
   if (pending) return { ...view, phase: "failed" };
   if (loading) return { ...view, phase: "loading" };
+  if (animation)
+    return { ...view, phase: "stopping", stoppedReels: animation.stopped };
   if (error === "SESSION_REQUIRED" || error === "SESSION_EXPIRED")
     return { ...view, phase: "unavailable" };
   if (error)
@@ -67,8 +73,7 @@ export function remoteView(
       phase: error === "INSUFFICIENT_BALANCE" ? "insufficient" : "failed",
     };
   if (!session) return { ...view, phase: "unavailable" };
-  if (animation)
-    return { ...view, phase: "stopping", stoppedReels: animation.stopped };
-  if (session.balance < bet) return { ...view, phase: "insufficient" };
+  if (visibleSession && visibleSession.balance < bet)
+    return { ...view, phase: "insufficient" };
   return view;
 }

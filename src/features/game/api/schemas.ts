@@ -5,6 +5,11 @@ const id = z.uuid({ version: "v4" });
 const version = z.number().int().min(0).max(500);
 const credits = z.number().int().nonnegative();
 const symbol = z.enum(symbols);
+export const sessionResetEventSchema = z.strictObject({
+  id,
+  generation: id,
+  version,
+});
 export const roundSchema = z.strictObject({
   id,
   generation: id,
